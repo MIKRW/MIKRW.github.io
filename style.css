@@ -221,26 +221,26 @@ h2{ font-size: 26px; font-weight:700; margin-bottom: 28px; letter-spacing: -0.01
   grid-template-columns: 1.3fr 1fr;
   gap: 14px;
   margin-bottom: 18px;
-  align-items: stretch;
+  align-items: start;
 }
 
-/* photo carousel */
-.featured-photo-carousel{ position: relative; height: 100%; }
-.carousel-track{ position: relative; height: 100%; }
+/* photo carousel: outer columns just wide enough for the arrow buttons, image in the middle */
+.featured-photo-carousel{ position: relative; }
+.carousel-row{
+  display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap: 8px;
+}
+.carousel-track{ position: relative; aspect-ratio: 9 / 16; overflow:hidden; border-radius: 8px; }
 .featured-photo-carousel .carousel-slide{
   display:none; position: absolute; inset: 0; height: 100%; aspect-ratio: auto;
 }
 .carousel-slide.active{ display:flex; }
 .carousel-arrow{
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink:0;
   background: var(--surface); border: 1px solid var(--border); color: var(--text);
   display:flex; align-items:center; justify-content:center; cursor:pointer;
   transition: background .15s, border-color .15s;
 }
 .carousel-arrow:hover{ background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-.carousel-prev{ left: 10px; }
-.carousel-next{ right: 10px; }
 .carousel-dots{
   position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
   display:flex; gap: 6px;
@@ -253,14 +253,10 @@ h2{ font-size: 26px; font-weight:700; margin-bottom: 28px; letter-spacing: -0.01
 
 /* right column: video on top, links below */
 .featured-media-right{ display:flex; flex-direction:column; gap: 14px; }
-.featured-media-right .video-placeholder{ flex: 1; display:flex; flex-direction:column; }
-.featured-media-right .video-placeholder video{ flex: 1; height: 100%; aspect-ratio: auto; object-fit: cover; }
 .featured-media-right .featured-links{ flex-direction: column; }
 
 @media (max-width: 640px){
   .featured-media{ grid-template-columns: 1fr; }
-  .featured-photo-carousel{ aspect-ratio: 4 / 3; }
-  .featured-media-right .video-placeholder video{ aspect-ratio: 16 / 9; height: auto; }
 }
 
 .media-placeholder{
@@ -277,7 +273,7 @@ h2{ font-size: 26px; font-weight:700; margin-bottom: 28px; letter-spacing: -0.01
   padding: 14px; display:flex; flex-direction:column; gap: 10px;
 }
 .video-placeholder video{
-  width: 100%; display:block; border-radius: 6px; background: #000; aspect-ratio: 16 / 9;
+  width: 100%; display:block; border-radius: 6px; background: #000; aspect-ratio: 4 / 5; object-fit: cover;
 }
 .video-placeholder span{ font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); }
 
