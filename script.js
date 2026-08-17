@@ -22,6 +22,12 @@ const ICON_EXTERNAL = `
 
 const ICON_CHEVRON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
 
+const BADGE_ICON_SVG = (size) => `
+  <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="9" r="6"/>
+    <path d="M9.5 14.5 8 22l4-2 4 2-1.5-7.5"/>
+  </svg>`;
+
 // A media-placeholder that quietly upgrades to a real photo if the file exists,
 // so dropping an image in with the right filename is all that's needed later.
 function loadPhotoInto(el, src) {
@@ -186,10 +192,12 @@ function renderContent() {
         return `
       <div class="cert-row cert-row--badge">
         <div class="cert-row-top">
-          <div class="cert-name">${cert.name}</div>
-          <div class="cert-badge-media media-placeholder small" data-src="${cert.badgeSrc}"></div>
+          <div>
+            <div class="cert-name">${cert.name}</div>
+            <div class="cert-meta">${cert.meta}</div>
+          </div>
+          <div class="cert-badge-media media-placeholder small" data-src="${cert.badgeSrc}">${BADGE_ICON_SVG(22)}</div>
         </div>
-        <div class="cert-meta">${cert.meta}</div>
       </div>`;
       }
       if (cert.format === 'inline') {
@@ -225,10 +233,12 @@ function renderContent() {
   handsOnPracticeListEl.innerHTML = handsOnPractice.map(platform => `
     <div class="cert-row cert-row--badge">
       <div class="cert-row-top">
-        <div class="cert-name">${platform.name}</div>
-        <div class="cert-badge-media media-placeholder small" data-src="${platform.badgeSrc}"></div>
+        <div>
+          <div class="cert-name">${platform.name}</div>
+          <a class="cert-meta cert-meta-link" href="${platform.profileUrl}" target="_blank" rel="noopener">${platform.meta}</a>
+        </div>
+        <div class="cert-badge-media media-placeholder small" data-src="${platform.badgeSrc}">${BADGE_ICON_SVG(22)}</div>
       </div>
-      <a class="cert-meta cert-meta-link" href="${platform.profileUrl}" target="_blank" rel="noopener">${platform.meta}</a>
     </div>`).join('');
   document.querySelectorAll('#handsOnPracticeList .media-placeholder[data-src]').forEach(el => {
     loadPhotoInto(el, el.dataset.src);
@@ -282,7 +292,9 @@ function setActiveTab(id) {
   } else {
     pauseGame();
   }
-  requestAnimationFrame(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  // Always scroll back to the very top so the hero (and the buttons) is fully visible,
+  // regardless of how far down the previous tab's content was scrolled.
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.querySelectorAll('[data-tab]').forEach(btn => {

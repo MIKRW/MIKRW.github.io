@@ -419,6 +419,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 
 .cert-row--badge, .cert-row--inline{ display:block; text-align:left; border-bottom:none; text-decoration:none; color: var(--text); }
 .cert-row-top{ display:flex; justify-content:space-between; align-items:center; gap: 12px; }
+.cert-row--badge .cert-row-top{ align-items: flex-start; }
 .cert-badge-media.media-placeholder{ width: 60px; max-width: 60px; aspect-ratio: 1 / 1; margin: 0; flex-shrink: 0; }
 .cert-row--badge .cert-meta, .cert-row--inline .cert-meta{ margin-top: 6px; }
 a.cert-row--badge:hover .cert-name{ color: var(--accent); }

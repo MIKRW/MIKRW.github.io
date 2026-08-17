@@ -20,6 +20,6 @@ SITE_CONTENT.education = [
 ];
 
 SITE_CONTENT.handsOnPractice = [
-  { name: "TryHackMe", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "[TryHackMe profile URL]", meta: "[TryHackMe profile link]" },
-  { name: "Hack The Box", badgeSrc: "[Hack The Box badge image URL]", profileUrl: "[Hack The Box profile URL]", meta: "[Hack The Box profile link]" }
+  { name: "TryHackMe", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "https://tryhackme.com/p/CamiChameleon", meta: "tryhackme.com/p/CamiChameleon" },
+  { name: "Hack The Box", badgeSrc: "[Hack The Box badge image URL]", profileUrl: "https://profile.hackthebox.com/profile/01a00027-89a1-7148-85e0-ab47f9f1f83a", meta: "Hack The Box profile" }
 ];
