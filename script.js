@@ -1,5 +1,196 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// ---- Render page content from content.js (SITE_CONTENT) ----
+const PHOTO_ICON_SVG = (size) => `
+  <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="2"/>
+    <circle cx="8.5" cy="8.5" r="1.5"/>
+    <path d="M21 15l-5-5L5 21"/>
+  </svg>`;
+
+const ICON_GITHUB = `
+  <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2C6.48 2 2 6.58 2 12.2c0 4.49 2.87 8.3 6.84 9.64.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.22-3.37-1.22-.45-1.18-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1.0.07 1.53 1.05 1.53 1.05.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.9-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z"/>
+  </svg>`;
+
+const ICON_EXTERNAL = `
+  <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <path d="M15 3h6v6"/>
+    <path d="M10 14 21 3"/>
+  </svg>`;
+
+const ICON_CHEVRON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
+
+// A media-placeholder that quietly upgrades to a real photo if the file exists,
+// so dropping an image in with the right filename is all that's needed later.
+function loadPhotoInto(el, src) {
+  const img = new Image();
+  img.onload = () => {
+    el.classList.add('has-image');
+    const imgEl = document.createElement('img');
+    imgEl.src = src;
+    imgEl.alt = '';
+    el.appendChild(imgEl);
+  };
+  img.src = src;
+}
+
+function renderContent() {
+  const c = SITE_CONTENT;
+
+  // Hero
+  document.getElementById('heroName').textContent = c.hero.name;
+  document.getElementById('heroRole').textContent = c.hero.roleLine;
+  document.getElementById('heroPitch').textContent = c.hero.pitch;
+  document.getElementById('heroStatus').textContent = c.hero.status;
+  document.getElementById('footerName').textContent = c.hero.name;
+  document.title = `${c.hero.name} — ${c.hero.roleLine}`;
+
+  // Banner CTA button labels
+  document.getElementById('btnAboutLabel').textContent = c.bannerButtons.about;
+  document.getElementById('btnProjectsLabel').textContent = c.bannerButtons.projects;
+  document.getElementById('btnCertsLabel').textContent = c.bannerButtons.certs;
+  document.getElementById('btnResumeLabel').textContent = c.bannerButtons.resume;
+
+  // About
+  const portraitEl = document.getElementById('aboutPortrait');
+  portraitEl.innerHTML = `${PHOTO_ICON_SVG(28)}<span>Portrait — replace with ${portraitEl.dataset.src}</span>`;
+  loadPhotoInto(portraitEl, portraitEl.dataset.src);
+
+  const aboutEl = document.getElementById('aboutText');
+  c.about.forEach(paragraph => {
+    const p = document.createElement('p');
+    p.textContent = paragraph;
+    aboutEl.appendChild(p);
+  });
+
+  // Projects — projectOrder[0] is the featured slot; everything after is secondary.
+  const isRealLink = url => !!url && url.trim() !== '' && url.trim() !== '#';
+  // Unfilled template fields look like "[Project Two Name]" — treat those (and blanks) as no content.
+  const isPlaceholderText = text => !text || !text.trim() || /^\[.*\]$/.test(text.trim());
+  const hasRealContent = project => !isPlaceholderText(project.name) && !isPlaceholderText(project.description);
+  const [featuredId, ...secondaryIds] = c.projectOrder;
+  const featured = c.projectsById[featuredId];
+
+  const featuredEl = document.getElementById('featuredProject');
+  const dots = featured.photos.map((_, i) =>
+    `<button class="carousel-dot${i === 0 ? ' active' : ''}" type="button" data-slide="${i}" aria-label="Show photo ${i + 1}"></button>`
+  ).join('');
+  const slidesHtml = featured.photos.map((photo, i) =>
+    `<div class="media-placeholder featured-photo-main carousel-slide${i === 0 ? ' active' : ''}" data-src="${photo.src}">
+      ${PHOTO_ICON_SVG(28)}
+      <span>${photo.label}</span>
+    </div>`
+  ).join('');
+
+  const featuredLinksHtml = [
+    isRealLink(featured.liveUrl) ? `<a class="btn primary" href="${featured.liveUrl}" target="_blank" rel="noopener">View Site</a>` : '',
+    isRealLink(featured.repoUrl) ? `<a class="btn ghost" href="${featured.repoUrl}" target="_blank" rel="noopener">View Repo</a>` : ''
+  ].join('');
+
+  const hasVideo = !!featured.video;
+  const videoHtml = hasVideo ? `
+      <div class="featured-media-right">
+        <div class="video-placeholder">
+          <video controls preload="none" poster="${featured.video.poster}">
+            <source src="${featured.video.src}" type="video/mp4">
+            Your browser doesn't support embedded video. <a href="${featured.video.src}">Download the demo instead</a>.
+          </video>
+        </div>
+      </div>` : '';
+
+  const carouselHtml = `
+      <div class="featured-photo-carousel">
+        <div class="carousel-track">
+          ${slidesHtml}
+          <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="carousel-arrow carousel-next" type="button" aria-label="Next photo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="carousel-dots">${dots}</div>
+        </div>
+      </div>`;
+
+  // With a video: title/links/desc centered above a photo+video row.
+  // Without one: split layout, text on the left and the carousel on the right.
+  featuredEl.innerHTML = hasVideo ? `
+    <h2 class="featured-title">${featured.name}</h2>
+    ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
+    <p class="featured-desc">${featured.description}</p>
+    <div class="featured-media">
+      ${carouselHtml}${videoHtml}
+    </div>` : `
+    <div class="featured-split">
+      <div class="featured-text">
+        <h2 class="featured-title">${featured.name}</h2>
+        ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
+        <p class="featured-desc">${featured.description}</p>
+      </div>
+      ${carouselHtml}
+    </div>`;
+
+  featuredEl.querySelectorAll('.carousel-slide[data-src]').forEach(slide => {
+    loadPhotoInto(slide, slide.dataset.src);
+  });
+
+  // Projects — secondary. Placeholder/blank entries are skipped so visitors
+  // never land on a card promising content that isn't there yet (or was
+  // pulled because it's outdated) — just remove/blank the fields in
+  // content/projects.js and the card disappears on its own.
+  const secondaryEl = document.getElementById('secondaryProjects');
+  secondaryEl.innerHTML = secondaryIds.map(id => c.projectsById[id]).filter(hasRealContent).map(project => {
+    const thumb = project.photos[0];
+    const link = isRealLink(project.liveUrl) ? project.liveUrl : (isRealLink(project.repoUrl) ? project.repoUrl : '');
+    return `
+    <div class="secondary-project">
+      <button class="secondary-project-toggle" type="button" aria-expanded="false">
+        <span>${project.name}</span>
+        ${ICON_CHEVRON}
+      </button>
+      <div class="secondary-project-body">
+        <div class="secondary-project-split">
+          <div class="secondary-project-text">
+            <h3 class="secondary-project-title">${project.name}</h3>
+            <p>${project.description}</p>
+            ${link ? `<a href="${link}" target="_blank" rel="noopener">View Project →</a>` : ''}
+          </div>
+          <div class="media-placeholder small" data-src="${thumb.src}">
+            ${PHOTO_ICON_SVG(22)}
+            <span>Photo — replace with ${thumb.src}</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  secondaryEl.querySelectorAll('.media-placeholder[data-src]').forEach(el => {
+    loadPhotoInto(el, el.dataset.src);
+  });
+
+  // Certs
+  const renderCertList = (id, certs) => {
+    document.getElementById(id).innerHTML = certs.map(cert => `
+      <div class="cert-row">
+        <div>
+          <div class="cert-name">${cert.name}</div>
+          <div class="cert-meta">${cert.meta}</div>
+        </div>
+        <span class="cert-status">${cert.status}</span>
+      </div>`).join('');
+  };
+  renderCertList('certList', c.certs);
+  renderCertList('shortCoursesList', c.shortCourses);
+  renderCertList('educationList', c.education);
+
+  // Contact
+  document.getElementById('contactIntro').textContent = c.contact.intro;
+  const recipientSelect = document.getElementById('recipientSelect');
+  recipientSelect.innerHTML = c.contact.recipients.map(email =>
+    `<option value="${email}">${email}</option>`
+  ).join('');
+}
+
+renderContent();
+
 // ---- Theme toggle (light / dark) ----
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.addEventListener('click', () => {
@@ -36,6 +227,44 @@ function setActiveTab(id) {
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
   btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
+});
+
+// ---- Contact form: submit via Formspree ----
+// TODO: replace with your real endpoint from https://formspree.io (Settings -> your form -> "Your Forms Endpoint")
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+const contactForm = document.getElementById('contactForm');
+const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+const contactFormStatus = document.getElementById('contactFormStatus');
+
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  contactFormStatus.textContent = '';
+  contactFormStatus.className = 'form-status';
+  contactSubmitBtn.disabled = true;
+  contactSubmitBtn.textContent = 'Sending…';
+
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(contactForm),
+    });
+
+    if (response.ok) {
+      contactFormStatus.textContent = 'Message sent — thanks for reaching out!';
+      contactFormStatus.classList.add('success');
+      contactForm.reset();
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch {
+    contactFormStatus.textContent = 'Something went wrong — please email me directly instead.';
+    contactFormStatus.classList.add('error');
+  } finally {
+    contactSubmitBtn.disabled = false;
+    contactSubmitBtn.textContent = 'Send Message';
+  }
 });
 
 // ---- Secondary project accordion cards ----

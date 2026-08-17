@@ -5,26 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mikaela — IT / Development / Security</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="content/banner.js"></script>
+<script src="content/about.js"></script>
+<script src="content/projects.js"></script>
+<script src="content/certs.js"></script>
+<script src="content/contact.js"></script>
 </head>
 <body>
+
+<div class="bg-rail bg-rail-left" aria-hidden="true"></div>
+<div class="bg-rail bg-rail-right" aria-hidden="true"></div>
 
 <header class="nav">
   <div class="nav-inner">
     <div class="brand"><span class="dot"></span>mikaela.dev</div>
     <nav class="links" id="navLinks">
-      <a class="nav-icon-link" href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+      <a class="nav-icon-link" href="https://github.com/MIKRW" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
         <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 2C6.48 2 2 6.58 2 12.2c0 4.49 2.87 8.3 6.84 9.64.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.22-3.37-1.22-.45-1.18-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1.0.07 1.53 1.05 1.53 1.05.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.9-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z"/>
         </svg>
       </a>
-      <a class="nav-icon-link" href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+      <a class="nav-icon-link" href="https://www.linkedin.com/in/mikaela-ward/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
         <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M6.94 8.5H3.56V20.4h3.38V8.5ZM5.25 3.6a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92ZM20.44 20.4h-3.37v-6.24c0-1.49-.03-3.4-2.07-3.4-2.08 0-2.4 1.62-2.4 3.29v6.35H9.24V8.5h3.24v1.63h.05c.45-.85 1.56-1.75 3.2-1.75 3.42 0 4.05 2.25 4.05 5.18v6.84Z"/>
         </svg>
       </a>
-      <a class="nav-icon-link" href="mailto:mikaela@example.com" aria-label="Email" title="Email">
+      <a class="nav-icon-link" href="#email" data-tab="email" aria-label="Email">
         <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3" y="5" width="18" height="14" rx="2"/>
           <path d="M3 7l9 6 9-6"/>
@@ -46,28 +54,28 @@
 <main class="wrap">
 
   <section class="hero" style="border-top:none;">
-    <h1>Mikaela</h1>
-    <div class="role-line">IT Support &nbsp;/&nbsp; Junior Developer &nbsp;/&nbsp; Cybersecurity</div>
-    <p class="pitch">I like figuring out how systems actually work — and how they break. Currently building projects and picking up certifications on the way into IT, development, and security work.</p>
-    <div class="status-bar"><span class="pulse"></span>STATUS: OPEN TO WORK</div>
+    <h1 id="heroName"></h1>
+    <div class="role-line" id="heroRole"></div>
+    <p class="pitch" id="heroPitch"></p>
+    <div class="status-bar"><span class="pulse"></span>STATUS: <span id="heroStatus"></span></div>
 
     <div class="cta-row">
       <button class="btn primary btn-icon active" data-tab="game" type="button" aria-label="Play a game" title="Play a game">
         <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
           <line x1="5" y1="3" x2="5" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path class="flag-shape" d="M5 4 H17 L14 7.5 L17 11 H5 Z"/>
+          <path class="banner-shape" d="M5 4 H17 L14 7.5 L17 11 H5 Z"/>
         </svg>
       </button>
-      <button class="btn primary" data-tab="about" type="button">About Me</button>
-      <button class="btn primary" data-tab="projects" type="button">View Projects</button>
-      <button class="btn primary" data-tab="certs" type="button">Certs</button>
+      <button class="btn primary" data-tab="about" type="button"><span id="btnAboutLabel"></span></button>
+      <button class="btn primary" data-tab="projects" type="button"><span id="btnProjectsLabel"></span></button>
+      <button class="btn primary" data-tab="certs" type="button"><span id="btnCertsLabel"></span></button>
       <a class="btn primary" href="resume.pdf" download>
         <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 3v12"/>
           <path d="M7 10l5 5 5-5"/>
           <path d="M4 19h16"/>
         </svg>
-        Download Resume
+        <span id="btnResumeLabel"></span>
       </a>
     </div>
   </section>
@@ -88,208 +96,54 @@
   </section>
 
   <section id="about" class="tab-section">
-    <div class="eyebrow">about</div>
-    <h2>Who I am</h2>
-    <div class="about-text">
-      <p>[Write 2–4 sentences here: your background, what drew you to IT/dev/cyber, and what you're working on now — a bootcamp, a degree, self-taught projects, or a current job you're building on.]</p>
-      <p>[Optional second paragraph: what kind of role you're aiming for next, and what you're best at — troubleshooting, writing scripts, securing systems, or something else.]</p>
-    </div>
+    <div class="media-placeholder about-portrait" id="aboutPortrait" data-src="portrait.jpg"></div>
+    <h2 class="center">Who I am</h2>
+    <div class="about-text center" id="aboutText"></div>
   </section>
 
   <section id="projects" class="tab-section">
-    <h2 class="featured-title">[Project One Name]</h2>
-
-    <div class="featured-project">
-      <p class="featured-desc">[One or two sentences: what this project does, the problem it solves, and any interesting technical detail worth highlighting — this is your best project, so give it a little more room to breathe than the others.]</p>
-
-      <div class="featured-media">
-        <div class="featured-photo-carousel">
-          <div class="carousel-row">
-            <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous photo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <div class="carousel-track">
-              <div class="media-placeholder featured-photo-main carousel-slide active">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <path d="M21 15l-5-5L5 21"/>
-                </svg>
-                <span>Photo 1 — replace with project1-photo1.jpg</span>
-              </div>
-              <div class="media-placeholder featured-photo-main carousel-slide">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <path d="M21 15l-5-5L5 21"/>
-                </svg>
-                <span>Photo 2 — replace with project1-photo2.jpg</span>
-              </div>
-              <div class="media-placeholder featured-photo-main carousel-slide">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <path d="M21 15l-5-5L5 21"/>
-                </svg>
-                <span>Photo 3 — replace with project1-photo3.jpg</span>
-              </div>
-            </div>
-            <button class="carousel-arrow carousel-next" type="button" aria-label="Next photo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-            </button>
-          </div>
-          <div class="carousel-dots">
-            <button class="carousel-dot active" type="button" data-slide="0" aria-label="Show photo 1"></button>
-            <button class="carousel-dot" type="button" data-slide="1" aria-label="Show photo 2"></button>
-            <button class="carousel-dot" type="button" data-slide="2" aria-label="Show photo 3"></button>
-          </div>
-        </div>
-
-        <div class="featured-media-right">
-          <div class="video-placeholder">
-            <video controls preload="none" poster="project1-video-poster.jpg">
-              <source src="project1-demo.mp4" type="video/mp4">
-              Your browser doesn't support embedded video. <a href="project1-demo.mp4">Download the demo instead</a>.
-            </video>
-            <span>~15 sec demo — replace project1-demo.mp4 (and project1-video-poster.jpg). Self-hosted .mp4 like this plays natively on GitHub Pages, no extra setup needed.</span>
-          </div>
-
-          <div class="featured-links">
-            <a class="btn primary" href="#" target="_blank" rel="noopener">
-              <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 2C6.48 2 2 6.58 2 12.2c0 4.49 2.87 8.3 6.84 9.64.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.22-3.37-1.22-.45-1.18-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1.0.07 1.53 1.05 1.53 1.05.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.9-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z"/>
-              </svg>
-              View Repo
-            </a>
-            <a class="btn primary" href="#" target="_blank" rel="noopener">
-              <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                <path d="M15 3h6v6"/>
-                <path d="M10 14 21 3"/>
-              </svg>
-              Live Site
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="secondary-projects">
-
-      <div class="secondary-project">
-        <button class="secondary-project-toggle" type="button" aria-expanded="false">
-          <span>[Project Two Name]</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="secondary-project-body">
-          <div class="media-placeholder small">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>Photo — replace with project2.jpg</span>
-          </div>
-          <p>[Short one-sentence description of this project.]</p>
-          <a href="#" target="_blank" rel="noopener">View Project →</a>
-        </div>
-      </div>
-
-      <div class="secondary-project">
-        <button class="secondary-project-toggle" type="button" aria-expanded="false">
-          <span>[Project Three Name]</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="secondary-project-body">
-          <div class="media-placeholder small">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>Photo — replace with project3.jpg</span>
-          </div>
-          <p>[Short one-sentence description of this project.]</p>
-          <a href="#" target="_blank" rel="noopener">View Project →</a>
-        </div>
-      </div>
-
-      <div class="secondary-project">
-        <button class="secondary-project-toggle" type="button" aria-expanded="false">
-          <span>[Project Four Name]</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="secondary-project-body">
-          <div class="media-placeholder small">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>Photo — replace with project4.jpg</span>
-          </div>
-          <p>[Short one-sentence description of this project.]</p>
-          <a href="#" target="_blank" rel="noopener">View Project →</a>
-        </div>
-      </div>
-
-      <div class="secondary-project">
-        <button class="secondary-project-toggle" type="button" aria-expanded="false">
-          <span>[Project Five Name]</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="secondary-project-body">
-          <div class="media-placeholder small">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>Photo — replace with project5.jpg</span>
-          </div>
-          <p>[Short one-sentence description of this project.]</p>
-          <a href="#" target="_blank" rel="noopener">View Project →</a>
-        </div>
-      </div>
-
-      <div class="secondary-project">
-        <button class="secondary-project-toggle" type="button" aria-expanded="false">
-          <span>[Project Six Name]</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="secondary-project-body">
-          <div class="media-placeholder small">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>Photo — replace with project6.jpg</span>
-          </div>
-          <p>[Short one-sentence description of this project.]</p>
-          <a href="#" target="_blank" rel="noopener">View Project →</a>
-        </div>
-      </div>
-
-    </div>
+    <div class="featured-project" id="featuredProject"></div>
+    <div class="secondary-projects" id="secondaryProjects"></div>
   </section>
 
   <section id="certs" class="tab-section">
-    <div class="eyebrow">certifications &amp; education</div>
-    <h2>Credentials</h2>
-    <div class="cert-list">
-      <div class="cert-row">
-        <div>
-          <div class="cert-name">[Degree or Program Name]</div>
-          <div class="cert-meta">[School / Bootcamp Name] · [Year or "in progress"]</div>
-        </div>
-        <span class="cert-status">in progress</span>
+    <div class="eyebrow center">certifications &amp; education</div>
+    <h2 class="center">Industry Credentials</h2>
+    <div class="cert-list center" id="certList"></div>
+
+    <h3 class="cert-subheading center">Short Courses</h3>
+    <div class="cert-list center" id="shortCoursesList"></div>
+
+    <h3 class="cert-subheading center">Educational Credentials</h3>
+    <div class="cert-list center" id="educationList"></div>
+  </section>
+
+  <section id="email" class="tab-section contact-section">
+    <h2 class="center">Get in touch</h2>
+    <p class="about-text center" id="contactIntro"></p>
+
+    <form class="contact-form" id="contactForm" novalidate>
+      <div class="form-row">
+        <label for="senderName">Your name</label>
+        <input type="text" id="senderName" name="name" placeholder="Jane Doe" required autocomplete="name">
       </div>
-      <div class="cert-row">
-        <div>
-          <div class="cert-name">CompTIA A+</div>
-          <div class="cert-meta">[Year earned, or "studying for"]</div>
-        </div>
-        <span class="cert-status">in progress</span>
+      <div class="form-row">
+        <label for="senderEmail">Your email</label>
+        <input type="email" id="senderEmail" name="email" placeholder="you@example.com" required autocomplete="email">
       </div>
-      <div class="cert-row">
-        <div>
-          <div class="cert-name">CompTIA Security+</div>
-          <div class="cert-meta">[Year earned, or "planned"]</div>
-        </div>
-        <span class="cert-status">planned</span>
+      <div class="form-row">
+        <label for="recipientSelect">Send to</label>
+        <select id="recipientSelect" name="recipient" required></select>
       </div>
-    </div>
+      <div class="form-row">
+        <label for="messageBody">Message</label>
+        <textarea id="messageBody" name="message" rows="6" placeholder="What's up?" required></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit" id="contactSubmitBtn">Send Message</button>
+        <span class="form-status" id="contactFormStatus" role="status" aria-live="polite"></span>
+      </div>
+    </form>
   </section>
 
   </div>
@@ -297,7 +151,7 @@
 </main>
 
 <footer>
-  © <span id="year"></span> Mikaela — built with care.
+  © <span id="year"></span> <span id="footerName"></span> — built with care.
 </footer>
 
 <script src="script.js"></script>
