@@ -9,14 +9,14 @@ window.SITE_CONTENT = window.SITE_CONTENT || {};
 
 SITE_CONTENT.hero = {
   name: "Mikaela",
-  roleLine: "IT Support / Junior Developer / Cybersecurity",
-  pitch: "I like figuring out how systems actually work — and how they break. Currently building projects and picking up certifications on the way into IT, development, and security work.",
-  status: "OPEN TO WORK"
+  roleLine: "Uni Student → IT Support / Junior Cybersecurity",
+  pitch: "Exploring the world of tech, cyber and AI — currently studying, building projects, and growing my network along the way. Take a look at what I'm working on below.",
+  status: "LOOKING FOR INTERNSHIPS — OPEN TO WORK"
 };
 
 SITE_CONTENT.bannerButtons = {
   about: "About Me",
   projects: "View Projects",
-  certs: "Certs",
+  certs: "Credentials",
   resume: "Download Resume"
 };

@@ -167,19 +167,79 @@ function renderContent() {
   });
 
   // Certs
-  const renderCertList = (id, certs) => {
-    document.getElementById(id).innerHTML = certs.map(cert => `
+  const isPlaceholder = (val) => typeof val === 'string' && /^\[.*\]$/.test(val.trim());
+
+  const setSectionVisible = (listEl, visible) => {
+    listEl.style.display = visible ? '' : 'none';
+    const heading = listEl.previousElementSibling;
+    if (heading && (heading.tagName === 'H2' || heading.tagName === 'H3')) {
+      heading.style.display = visible ? '' : 'none';
+    }
+  };
+
+  const renderCertList = (id, allCerts) => {
+    const listEl = document.getElementById(id);
+    const certs = allCerts.filter(cert => !isPlaceholder(cert.name));
+    setSectionVisible(listEl, certs.length > 0);
+    listEl.innerHTML = certs.map(cert => {
+      if (cert.format === 'badge') {
+        return `
+      <div class="cert-row cert-row--badge">
+        <div class="cert-row-top">
+          <div class="cert-name">${cert.name}</div>
+          <div class="cert-badge-media media-placeholder small" data-src="${cert.badgeSrc}"></div>
+        </div>
+        <div class="cert-meta">${cert.meta}</div>
+      </div>`;
+      }
+      if (cert.format === 'inline') {
+        return `
+      <div class="cert-row cert-row--inline">
+        <div class="cert-row-top">
+          <div class="cert-name">${cert.name}</div>
+          <span class="cert-status">${cert.status}</span>
+        </div>
+        <div class="cert-meta">${cert.meta}</div>
+      </div>`;
+      }
+      return `
       <div class="cert-row">
         <div>
           <div class="cert-name">${cert.name}</div>
           <div class="cert-meta">${cert.meta}</div>
         </div>
         <span class="cert-status">${cert.status}</span>
-      </div>`).join('');
+      </div>`;
+    }).join('');
+    document.querySelectorAll(`#${id} .media-placeholder[data-src]`).forEach(el => {
+      loadPhotoInto(el, el.dataset.src);
+    });
   };
   renderCertList('certList', c.certs);
   renderCertList('shortCoursesList', c.shortCourses);
   renderCertList('educationList', c.education);
+
+  const handsOnPracticeListEl = document.getElementById('handsOnPracticeList');
+  const handsOnPractice = c.handsOnPractice.filter(platform => !isPlaceholder(platform.name));
+  setSectionVisible(handsOnPracticeListEl, handsOnPractice.length > 0);
+  handsOnPracticeListEl.innerHTML = handsOnPractice.map(platform => `
+    <div class="cert-row cert-row--badge">
+      <div class="cert-row-top">
+        <div class="cert-name">${platform.name}</div>
+        <div class="cert-badge-media media-placeholder small" data-src="${platform.badgeSrc}"></div>
+      </div>
+      <a class="cert-meta cert-meta-link" href="${platform.profileUrl}" target="_blank" rel="noopener">${platform.meta}</a>
+    </div>`).join('');
+  document.querySelectorAll('#handsOnPracticeList .media-placeholder[data-src]').forEach(el => {
+    loadPhotoInto(el, el.dataset.src);
+  });
+
+  // Whichever heading ends up first (earlier ones may be hidden if empty) sits flush
+  // against the section's top padding, so every tab opens with the same gap under the divider.
+  const certsHeadings = document.querySelectorAll('#certs > h2, #certs > .cert-subheading');
+  certsHeadings.forEach(h => { h.style.marginTop = ''; });
+  const firstVisibleCertsHeading = Array.from(certsHeadings).find(h => h.style.display !== 'none');
+  if (firstVisibleCertsHeading) firstVisibleCertsHeading.style.marginTop = '0';
 
   // Contact
   document.getElementById('contactIntro').textContent = c.contact.intro;

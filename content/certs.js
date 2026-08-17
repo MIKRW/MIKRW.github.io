@@ -5,14 +5,21 @@
 window.SITE_CONTENT = window.SITE_CONTENT || {};
 
 SITE_CONTENT.certs = [
-  { name: "CompTIA A+", meta: "[Year earned, or \"studying for\"]", status: "in progress" },
-  { name: "CompTIA Security+", meta: "[Year earned, or \"planned\"]", status: "planned" }
+  { name: "[Certification Name]", format: "badge", meta: "[Short blurb about the cert]", badgeSrc: "[Certification badge image URL]" },
+  { name: "[Certification Name]", format: "inline", meta: "[Short blurb about the cert]", status: "in progress" }
 ];
 
 SITE_CONTENT.shortCourses = [
-  { name: "[Short Course Name]", meta: "[Provider Name] · [Year completed]", status: "done" }
+  { name: "[Short Course Name]", format: "inline", meta: "[Provider Name] · [Year completed]", status: "Completed" }
 ];
 
 SITE_CONTENT.education = [
-  { name: "[Degree or Program Name]", meta: "[School / Bootcamp Name] · [Year or \"in progress\"]", status: "in progress" }
+  { name: "Certificate III in Information Technology (Animation/Gaming)", format: "inline", meta: "[School / Bootcamp Name] · 2025", status: "Completed" },
+  { name: "Certificate IV in Visual Arts", format: "inline", meta: "Wodonga TAFE · 2024", status: "Completed" },
+  { name: "Bachelor of Science", format: "inline", meta: "Australian National University · 2019", status: "Completed" }
+];
+
+SITE_CONTENT.handsOnPractice = [
+  { name: "TryHackMe", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "[TryHackMe profile URL]", meta: "[TryHackMe profile link]" },
+  { name: "Hack The Box", badgeSrc: "[Hack The Box badge image URL]", profileUrl: "[Hack The Box profile URL]", meta: "[Hack The Box profile link]" }
 ];

@@ -412,10 +412,18 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 }
 .cert-row:last-child{ border-bottom:none; }
 .cert-name{ font-weight:600; }
-.cert-meta{ font-family: var(--mono); font-size: var(--text-xs); color: var(--text-muted); }
+.cert-meta{ font-family: var(--mono); font-size: var(--text-sm); color: var(--text-muted); }
 .cert-status{ font-family: var(--mono); font-size: var(--text-2xs); color: var(--blue); border:1px solid var(--blue); padding:2px 8px; border-radius:4px; }
 .cert-status.done{ color: var(--accent); border-color: var(--accent-dim); }
-.cert-subheading{ margin-top: 40px; margin-bottom: 4px; }
+.cert-subheading{ font-size: var(--text-xl); font-weight:700; letter-spacing: -0.01em; margin-top: 40px; margin-bottom: 28px; }
+
+.cert-row--badge, .cert-row--inline{ display:block; text-align:left; border-bottom:none; text-decoration:none; color: var(--text); }
+.cert-row-top{ display:flex; justify-content:space-between; align-items:center; gap: 12px; }
+.cert-badge-media.media-placeholder{ width: 60px; max-width: 60px; aspect-ratio: 1 / 1; margin: 0; flex-shrink: 0; }
+.cert-row--badge .cert-meta, .cert-row--inline .cert-meta{ margin-top: 6px; }
+a.cert-row--badge:hover .cert-name{ color: var(--accent); }
+.cert-meta-link{ display:inline-block; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; }
+.cert-meta-link:hover{ color: var(--accent); text-decoration-color: var(--accent); }
 
 /* contact / email */
 .center{ text-align:center; }
