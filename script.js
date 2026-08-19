@@ -253,10 +253,6 @@ function renderContent() {
 
   // Contact
   document.getElementById('contactIntro').textContent = c.contact.intro;
-  const recipientSelect = document.getElementById('recipientSelect');
-  recipientSelect.innerHTML = c.contact.recipients.map(r =>
-    `<option value="${r.formId}">${r.label}</option>`
-  ).join('');
 }
 
 renderContent();
@@ -360,22 +356,45 @@ document.querySelectorAll('[data-tab]').forEach(btn => {
 });
 
 // ---- Contact form: submit via Formspree ----
-// Each recipient in content/contact.js maps to its own Formspree form ID, so the
-// dropdown picks which inbox gets the message without any email address appearing
-// in the page source. Fill in the real form IDs there once you've created the forms.
+// content/contact.js holds the Formspree form ID, so no real email address ever
+// appears in the page source. Fill in the real form ID there once you've created the form.
 const contactForm = document.getElementById('contactForm');
 const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 const contactFormStatus = document.getElementById('contactFormStatus');
-const recipientSelectEl = document.getElementById('recipientSelect');
+const messageBody = document.getElementById('messageBody');
+const messageCharCount = document.getElementById('messageCharCount');
+const MESSAGE_MAX_LENGTH = 1000;
+// Plain-text messages only — reject anything that looks like a link so people can't
+// slip malicious/spam URLs into an inbox via the contact form.
+const LINK_PATTERN = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|co|dev|xyz|info|biz|ru|cn)\b)/i;
+
+messageBody.addEventListener('input', () => {
+  const len = messageBody.value.length;
+  messageCharCount.textContent = `${len} / ${MESSAGE_MAX_LENGTH}`;
+  messageCharCount.classList.toggle('limit', len >= MESSAGE_MAX_LENGTH);
+});
 
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   contactFormStatus.textContent = '';
   contactFormStatus.className = 'form-status';
+
+  if (LINK_PATTERN.test(messageBody.value)) {
+    contactFormStatus.textContent = 'Please remove links/URLs from your message — text only.';
+    contactFormStatus.classList.add('error');
+    return;
+  }
+
+  if (window.grecaptcha && grecaptcha.getResponse().length === 0) {
+    contactFormStatus.textContent = 'Please complete the "I\'m not a robot" checkbox.';
+    contactFormStatus.classList.add('error');
+    return;
+  }
+
   contactSubmitBtn.disabled = true;
   contactSubmitBtn.textContent = 'Sending…';
 
-  const formspreeEndpoint = `https://formspree.io/f/${recipientSelectEl.value}`;
+  const formspreeEndpoint = `https://formspree.io/f/${SITE_CONTENT.contact.formId}`;
 
   try {
     const response = await fetch(formspreeEndpoint, {
@@ -392,11 +411,12 @@ contactForm.addEventListener('submit', async (e) => {
       throw new Error('Form submission failed');
     }
   } catch {
-    contactFormStatus.textContent = 'Something went wrong — please email me directly instead.';
+    contactFormStatus.textContent = 'Something went wrong — try again later.';
     contactFormStatus.classList.add('error');
   } finally {
     contactSubmitBtn.disabled = false;
     contactSubmitBtn.textContent = 'Send Message';
+    if (window.grecaptcha) grecaptcha.reset();
   }
 });
 

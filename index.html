@@ -145,21 +145,22 @@
     <p class="about-text center" id="contactIntro"></p>
 
     <form class="contact-form" id="contactForm" novalidate>
+      <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="form-row">
         <label for="senderName">Your name</label>
         <input type="text" id="senderName" name="name" placeholder="Jane Doe" required autocomplete="name">
       </div>
       <div class="form-row">
         <label for="senderEmail">Your email</label>
-        <input type="email" id="senderEmail" name="email" placeholder="you@example.com" required autocomplete="email">
-      </div>
-      <div class="form-row">
-        <label for="recipientSelect">Send to</label>
-        <select id="recipientSelect" name="recipient" required></select>
+        <input type="email" id="senderEmail" name="email" maxlength="500" placeholder="you@example.com" required autocomplete="email">
       </div>
       <div class="form-row">
         <label for="messageBody">Message</label>
-        <textarea id="messageBody" name="message" rows="6" placeholder="What's up?" required></textarea>
+        <textarea id="messageBody" name="message" rows="6" maxlength="1000" placeholder="What's up? (plain text only, no links)" required></textarea>
+        <span class="char-count" id="messageCharCount">0 / 1000</span>
+      </div>
+      <div class="form-row">
+        <div class="g-recaptcha" data-sitekey="6Leee40tAAAAAMjZPDc5NdddTSpo_FWLpgu-PSgc"></div>
       </div>
       <div class="form-actions">
         <button class="btn primary" type="submit" id="contactSubmitBtn">Send Message</button>
@@ -175,8 +176,14 @@
 <footer>
   © <span id="year"></span> <span id="footerName"></span> — built with care.
   <button id="petUnlockBtn" class="pet-unlock-btn" type="button" title="Got the terrarium flag?">🦎</button>
+  <div class="footer-links">
+    <a href="#">Back to top</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/MIKRW/mikrw.github.io" target="_blank" rel="noopener">View source</a>
+  </div>
 </footer>
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/adryd325/oneko.js@1.1.0/oneko.js" defer></script>
 <script src="pet.js" defer></script>
