@@ -455,7 +455,7 @@ h2.center{ margin-left:auto; margin-right:auto; }
 .hp-field{
   position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;
 }
-.form-row-center{ display:flex; justify-content:center; }
+.form-row-center{ display:flex; flex-direction:row; justify-content:center; }
 .form-actions{ display:flex; align-items:center; gap: 14px; justify-content:center; flex-wrap:wrap; }
 .form-status{ font-family: var(--mono); font-size: var(--text-sm); color: var(--text-muted); flex-basis: 100%; text-align: center; }
 .form-status.success{ color: var(--accent); }
