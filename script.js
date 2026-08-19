@@ -308,7 +308,10 @@ window.addEventListener('message', (event) => {
   const data = event.data;
   if (data && data.type === 'content-resize' && typeof data.height === 'number') {
     gameFrame.style.aspectRatio = 'auto';
-    gameFrame.style.height = `${data.height}px`;
+    // A few px of slack absorbs sub-pixel rounding and late font/image
+    // reflows inside the iframe so the bottom of the game never clips
+    // now that the frame has scrolling disabled.
+    gameFrame.style.height = `${data.height + 4}px`;
   }
 });
 
