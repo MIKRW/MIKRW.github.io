@@ -363,7 +363,7 @@ const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 const contactFormStatus = document.getElementById('contactFormStatus');
 const messageBody = document.getElementById('messageBody');
 const messageCharCount = document.getElementById('messageCharCount');
-const MESSAGE_MAX_LENGTH = 1000;
+const MESSAGE_MAX_LENGTH = 500;
 // Plain-text messages only — reject anything that looks like a link so people can't
 // slip malicious/spam URLs into an inbox via the contact form.
 const LINK_PATTERN = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|co|dev|xyz|info|biz|ru|cn)\b)/i;
