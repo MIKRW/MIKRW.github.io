@@ -104,15 +104,13 @@
   <div class="details-panel" id="detailsPanel">
 
   <section id="game" class="tab-section active">
-    <h2>Catch the Packets</h2>
-    <p class="about-text">Move your mouse (or use the ← → arrow keys) to catch the green data packets. Dodge the red malware — three hits and it's game over.</p>
     <div class="game-wrap">
-      <canvas id="packetCanvas" width="640" height="360" aria-label="Catch the Packets game — move to catch green packets and avoid red malware"></canvas>
-      <div class="game-hud">
-        <span>Score: <strong id="gameScore">0</strong></span>
-        <span>Lives: <strong id="gameLives">3</strong></span>
-        <button class="btn ghost" id="gameRestart" type="button">Restart</button>
-      </div>
+      <iframe
+        id="gameFrame"
+        src="https://mikrw.github.io/chameleon_game/"
+        title="Escape the Terrarium"
+        loading="lazy"
+      ></iframe>
     </div>
   </section>
 

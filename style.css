@@ -246,21 +246,13 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 
 /* game */
 #game{ text-align: center; }
-#game h2{ margin-left: auto; margin-right: auto; }
-#game .about-text{ margin-left: auto; margin-right: auto; }
 .game-wrap{
-  background: var(--surface); border:1px solid var(--border); border-radius:8px;
-  padding: 16px; max-width: 640px; margin: 8px auto 0;
+  max-width: 700px; margin: 8px auto 0;
 }
-#packetCanvas{
-  width: 100%; height: auto; display:block; border-radius:6px;
-  background: var(--surface-2); touch-action: none; cursor: crosshair;
+#gameFrame{
+  width: 100%; aspect-ratio: 4 / 3.6; display:block; border:0;
+  background: var(--bg);
 }
-.game-hud{
-  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  gap: 12px; margin-top: 14px; font-family: var(--mono); font-size: var(--text-sm); color: var(--text-muted);
-}
-.game-hud strong{ color: var(--text); }
 
 /* projects */
 .featured-title{ text-align: center; margin-bottom: 28px; }
