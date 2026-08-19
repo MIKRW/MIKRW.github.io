@@ -312,6 +312,14 @@ window.addEventListener('message', (event) => {
   }
 });
 
+// Keeps the unlocked chameleon pet's camouflage palette in sync with the
+// site theme, the same way the pet's own demo page does via deriveFromSite().
+function syncPetTheme() {
+  if (window.__chameleonPetInstance && window.ChameleonThemes) {
+    window.__chameleonPetInstance.setPalette(window.ChameleonThemes.deriveFromSite());
+  }
+}
+
 themeToggle.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   if (isDark) {
@@ -327,6 +335,7 @@ themeToggle.addEventListener('click', () => {
     themeToggle.setAttribute('title', 'Switch to light theme');
     syncGameTheme('dark');
   }
+  syncPetTheme();
 });
 
 // ---- Tab switching: buttons control which section is shown ----
