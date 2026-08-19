@@ -252,6 +252,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 #gameFrame{
   width: 100%; aspect-ratio: 4 / 3.6; display:block; border:0;
   background: var(--bg);
+  transition: background-color .25s ease;
 }
 
 /* projects */

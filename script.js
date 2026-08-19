@@ -300,6 +300,18 @@ if (gameFrame) {
   gameFrame.addEventListener('load', () => syncGameTheme(currentTheme()));
 }
 
+// The game reports its real content height so the iframe can match it
+// exactly (no leftover transparent margin for a theme-switch flash to
+// show through, and no fixed aspect-ratio guess that breaks on mobile).
+window.addEventListener('message', (event) => {
+  if (event.origin !== 'https://mikrw.github.io' || !gameFrame || event.source !== gameFrame.contentWindow) return;
+  const data = event.data;
+  if (data && data.type === 'content-resize' && typeof data.height === 'number') {
+    gameFrame.style.aspectRatio = 'auto';
+    gameFrame.style.height = `${data.height}px`;
+  }
+});
+
 themeToggle.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   if (isDark) {
