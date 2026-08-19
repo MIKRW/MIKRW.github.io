@@ -121,6 +121,9 @@ header.nav{
 .brand .dot{
   width:8px; height:8px; border-radius:50%; background: var(--accent);
 }
+.brand-mark{
+  width:40px; height:40px; border-radius:50%; display:block;
+}
 nav.links{ display:flex; align-items:center; gap: 12px; font-family: var(--mono); font-size: var(--text-sm); color: var(--text-muted); }
 .nav-icon-link{
   display:flex; align-items:center; justify-content:center;
@@ -148,6 +151,7 @@ nav.links{ display:flex; align-items:center; gap: 12px; font-family: var(--mono)
   .nav-icon-link{ width: 34px; height: 34px; }
   .nav-icon{ width: 17px; height: 17px; }
   .brand{ font-size: var(--text-sm); }
+  .brand-mark{ width: 34px; height: 34px; }
 }
 
 /* ---- Hero / status bar ---- */
