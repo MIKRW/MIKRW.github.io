@@ -20,6 +20,7 @@ SITE_CONTENT.education = [
 ];
 
 SITE_CONTENT.handsOnPractice = [
-  { name: "TryHackMe", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "https://tryhackme.com/p/CamiChameleon", meta: "tryhackme.com/p/CamiChameleon" },
-  { name: "Hack The Box", badgeSrc: "[Hack The Box badge image URL]", profileUrl: "https://profile.hackthebox.com/profile/01a00027-89a1-7148-85e0-ab47f9f1f83a", meta: "Hack The Box profile" }
+  { name: "TryHackMe", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "https://tryhackme.com/p/CamiChameleon", meta: "tryhackme.com/p/CamiChameleon" }
+  // Hack The Box: hidden until profile has completed content — re-add once boxes are done.
+  // { name: "Hack The Box", badgeSrc: "[Hack The Box badge image URL]", profileUrl: "https://profile.hackthebox.com/profile/01a00027-89a1-7148-85e0-ab47f9f1f83a", meta: "Hack The Box profile" }
 ];
