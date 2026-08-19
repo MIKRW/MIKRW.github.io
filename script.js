@@ -51,7 +51,7 @@ function renderContent() {
   document.getElementById('heroPitch').textContent = c.hero.pitch;
   document.getElementById('heroStatus').textContent = c.hero.status;
   document.getElementById('footerName').textContent = c.hero.name;
-  document.title = `${c.hero.name} — ${c.hero.roleLine}`;
+  document.title = `${c.hero.name} — Portfolio`;
 
   // Banner CTA button labels
   document.getElementById('btnAboutLabel').textContent = c.bannerButtons.about;
@@ -254,12 +254,30 @@ function renderContent() {
   // Contact
   document.getElementById('contactIntro').textContent = c.contact.intro;
   const recipientSelect = document.getElementById('recipientSelect');
-  recipientSelect.innerHTML = c.contact.recipients.map(email =>
-    `<option value="${email}">${email}</option>`
+  recipientSelect.innerHTML = c.contact.recipients.map(r =>
+    `<option value="${r.formId}">${r.label}</option>`
   ).join('');
 }
 
 renderContent();
+
+// ---- JSON-LD structured data (schema.org/Person), built from content/seo.js ----
+function renderStructuredData() {
+  const seo = SITE_CONTENT.seo;
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": seo.person.name,
+    "jobTitle": seo.person.jobTitle,
+    "url": seo.siteUrl,
+    "sameAs": seo.person.sameAs
+  };
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(ld);
+  document.head.appendChild(script);
+}
+renderStructuredData();
 
 // ---- Theme toggle (light / dark) ----
 const themeToggle = document.getElementById('themeToggle');
@@ -302,12 +320,13 @@ document.querySelectorAll('[data-tab]').forEach(btn => {
 });
 
 // ---- Contact form: submit via Formspree ----
-// TODO: replace with your real endpoint from https://formspree.io (Settings -> your form -> "Your Forms Endpoint")
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
-
+// Each recipient in content/contact.js maps to its own Formspree form ID, so the
+// dropdown picks which inbox gets the message without any email address appearing
+// in the page source. Fill in the real form IDs there once you've created the forms.
 const contactForm = document.getElementById('contactForm');
 const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 const contactFormStatus = document.getElementById('contactFormStatus');
+const recipientSelectEl = document.getElementById('recipientSelect');
 
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -316,8 +335,10 @@ contactForm.addEventListener('submit', async (e) => {
   contactSubmitBtn.disabled = true;
   contactSubmitBtn.textContent = 'Sending…';
 
+  const formspreeEndpoint = `https://formspree.io/f/${recipientSelectEl.value}`;
+
   try {
-    const response = await fetch(FORMSPREE_ENDPOINT, {
+    const response = await fetch(formspreeEndpoint, {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: new FormData(contactForm),

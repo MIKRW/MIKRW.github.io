@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mikrw.github.io/portfolio_site/sitemap.xml
