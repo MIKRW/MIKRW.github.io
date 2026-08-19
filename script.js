@@ -281,6 +281,25 @@ renderStructuredData();
 
 // ---- Theme toggle (light / dark) ----
 const themeToggle = document.getElementById('themeToggle');
+const gameFrame = document.getElementById('gameFrame');
+
+// Keeps the embedded game's background in sync with the site theme so the
+// iframe never shows a stale (opposite-theme) background while it fades.
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+function syncGameTheme(theme) {
+  if (gameFrame && gameFrame.contentWindow) {
+    gameFrame.contentWindow.postMessage({ type: 'set-theme', theme }, 'https://mikrw.github.io');
+  }
+}
+// The iframe is lazy-loaded, so it may still be blank when the toggle is
+// clicked; re-sync once it actually finishes loading (its own ?theme= param
+// only covers the theme active at page load, not one picked up mid-flight).
+if (gameFrame) {
+  gameFrame.addEventListener('load', () => syncGameTheme(currentTheme()));
+}
+
 themeToggle.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   if (isDark) {
@@ -288,11 +307,13 @@ themeToggle.addEventListener('click', () => {
     themeToggle.setAttribute('aria-pressed', 'false');
     themeToggle.setAttribute('aria-label', 'Switch to dark theme');
     themeToggle.setAttribute('title', 'Switch to dark theme');
+    syncGameTheme('light');
   } else {
     document.documentElement.setAttribute('data-theme', 'dark');
     themeToggle.setAttribute('aria-pressed', 'true');
     themeToggle.setAttribute('aria-label', 'Switch to light theme');
     themeToggle.setAttribute('title', 'Switch to light theme');
+    syncGameTheme('dark');
   }
 });
 
