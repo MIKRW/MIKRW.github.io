@@ -452,10 +452,17 @@ footer{ padding: 32px 0 48px; text-align:center; color: var(--text-muted); font-
 
 .pet-unlock-btn{
   background: none; border: none; cursor: pointer;
-  font-size: var(--text-sm); opacity: 0.35; margin-left: 8px;
+  font-size: 20px; opacity: 0.35; margin-left: 8px;
   vertical-align: middle; transition: opacity 0.2s;
+  display: inline-block;
 }
-.pet-unlock-btn:hover{ opacity: 1; }
+.pet-unlock-btn:hover{ opacity: 1; animation: pet-unlock-wiggle 0.4s ease-in-out; }
+
+@keyframes pet-unlock-wiggle{
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
 
 @media (prefers-reduced-motion: reduce){
   *{ animation: none !important; transition: none !important; }
