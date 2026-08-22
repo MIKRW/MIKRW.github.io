@@ -11,7 +11,7 @@
 // To set PET_FLAG_HASH: open this site, open the console, and run
 //   await sha256Hex('FLAG{...}')
 // with the real flag, then paste the result in below.
-const PET_FLAG_HASH = '';
+const PET_FLAG_HASH = '1a95f2cda64476b51cdb6623f245ee02f48e77b9ba4287a8566c2b840bb93440';
 
 const PET_BASE = 'https://mikrw.github.io/chameleon_pet/';
 const PET_SCRIPTS = [
