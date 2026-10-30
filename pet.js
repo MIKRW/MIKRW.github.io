@@ -27,6 +27,30 @@ const PET_SCRIPTS = [
 ];
 const PET_UNLOCKED_KEY = 'chameleonPetUnlocked';
 
+// The pet's deriveFromSite() spins the crest and eye ring around the colour
+// wheel from the site accent, which on the lavender light theme lands on
+// orange and lime green. Light mode uses this hand-picked berry palette
+// instead so the pet stays in the purple/pink/red family; dark mode keeps
+// the derived one, which already suits the navy theme.
+const LIGHT_PET_PALETTE = {
+  body: '#7A2E62',
+  bodyLight: '#B5578F',
+  bodyDark: '#4A1A3C',
+  outline: '#1E0A18',
+  crest: '#C2364F',
+  eye: '#0a0a0a',
+  eyeRing: '#F2A7C3',
+  tongue: '#E0457B',
+};
+
+function sitePetPalette() {
+  if (document.documentElement.getAttribute('data-theme') === 'dark') {
+    return window.ChameleonThemes.deriveFromSite();
+  }
+  return LIGHT_PET_PALETTE;
+}
+window.sitePetPalette = sitePetPalette;
+
 async function sha256Hex(text) {
   const normalized = text.trim().toLowerCase();
   const data = new TextEncoder().encode(normalized);
@@ -68,7 +92,7 @@ async function showChameleonPet() {
   const pet = window.ChameleonPet.init();
   window.__chameleonPetInstance = pet;
   if (window.ChameleonThemes) {
-    pet.setPalette(window.ChameleonThemes.deriveFromSite());
+    pet.setPalette(sitePetPalette());
   }
 }
 

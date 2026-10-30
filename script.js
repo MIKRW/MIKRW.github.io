@@ -124,7 +124,7 @@ function renderContent() {
     <p class="featured-desc">${featured.description}</p>
     ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
     <div class="game-wrap">
-      <iframe id="gameFrame" src="${featured.embed.src}" title="${featured.embed.title}" loading="lazy" scrolling="no"></iframe>
+      <iframe id="gameFrame" src="${featured.embed.src.replace(/([?&]theme=)\w+/, `$1${currentTheme()}`)}" title="${featured.embed.title}" loading="lazy" scrolling="no"></iframe>
     </div>` : hasVideo ? `
     <h2 class="featured-title">${featured.name}</h2>
     ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
@@ -319,29 +319,42 @@ window.addEventListener('message', (event) => {
 });
 
 // Keeps the unlocked chameleon pet's camouflage palette in sync with the
-// site theme, the same way the pet's own demo page does via deriveFromSite().
+// site theme (see sitePetPalette() in pet.js for the light-mode override).
 function syncPetTheme() {
-  if (window.__chameleonPetInstance && window.ChameleonThemes) {
-    window.__chameleonPetInstance.setPalette(window.ChameleonThemes.deriveFromSite());
+  if (window.__chameleonPetInstance && window.ChameleonThemes && window.sitePetPalette) {
+    window.__chameleonPetInstance.setPalette(window.sitePetPalette());
   }
 }
 
-themeToggle.addEventListener('click', () => {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  if (isDark) {
-    document.documentElement.removeAttribute('data-theme');
-    themeToggle.setAttribute('aria-pressed', 'false');
-    themeToggle.setAttribute('aria-label', 'Switch to dark theme');
-    themeToggle.setAttribute('title', 'Switch to dark theme');
-    syncGameTheme('light');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    themeToggle.setAttribute('aria-pressed', 'true');
-    themeToggle.setAttribute('aria-label', 'Switch to light theme');
-    themeToggle.setAttribute('title', 'Switch to light theme');
-    syncGameTheme('dark');
-  }
+// The inline script in <head> already set data-theme before paint; this only
+// brings the toggle's label in line with it and keeps the embeds in sync.
+function syncToggleLabel(theme) {
+  const next = theme === 'dark' ? 'light' : 'dark';
+  themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+  themeToggle.setAttribute('aria-label', `Switch to ${next} theme`);
+  themeToggle.setAttribute('title', `Switch to ${next} theme`);
+}
+function applyTheme(theme) {
+  if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  else document.documentElement.removeAttribute('data-theme');
+  syncToggleLabel(theme);
+  syncGameTheme(theme);
   syncPetTheme();
+}
+syncToggleLabel(currentTheme());
+
+themeToggle.addEventListener('click', () => {
+  const theme = currentTheme() === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('theme', theme); } catch (e) {}
+  applyTheme(theme);
+});
+
+// Until the visitor picks a theme themselves, follow live system changes
+// (e.g. an OS that switches to dark mode at sunset).
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+  let saved = null;
+  try { saved = localStorage.getItem('theme'); } catch (e) {}
+  if (!saved) applyTheme(event.matches ? 'dark' : 'light');
 });
 
 // ---- Tab switching: buttons control which section is shown ----
