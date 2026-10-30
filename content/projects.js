@@ -16,6 +16,8 @@
 //       column entirely — the layout collapses to just the photo carousel.
 //     - repoUrl / liveUrl: each rendered as its own button under the title.
 //       Leave either as "#" (or blank) to hide that specific button.
+//     - embed: optional { src, title } — embeds a live page (e.g. a game) in
+//       an iframe under the description, replacing the photos/video layout.
 //   EVERY OTHER PROJECT (2nd key onward):
 //     - photos: only photos[0] is used, as a single thumbnail.
 //     - video: ignored even if set.
@@ -29,16 +31,13 @@ SITE_CONTENT.projectOrder = ["projectOne", "projectTwo", "projectThree", "projec
 
 SITE_CONTENT.projectsById = {
   projectOne: {
-    name: "[Project One Name]",
-    description: "[One or two sentences: what this project does, the problem it solves, and any interesting technical detail worth highlighting — this is your best project, so give it a little more room to breathe than the others.]",
-    photos: [
-      { src: "project1-photo1.jpg", label: "Photo 1 — replace with project1-photo1.jpg" },
-      { src: "project1-photo2.jpg", label: "Photo 2 — replace with project1-photo2.jpg" },
-      { src: "project1-photo3.jpg", label: "Photo 3 — replace with project1-photo3.jpg" }
-    ],
+    name: "Escape the Terrarium",
+    description: "A browser-based capture-the-flag game: help a chameleon break out of its terrarium by solving puzzles to uncover the hidden flag. Flags are checked against SHA-256 hashes, so the answers never appear in the source. Find the flag, then enter it via the 🦎 in the footer to unlock a reward.",
+    photos: [],
     video: null,
-    repoUrl: "https://github.com/MIKRW/portfolio_site",
-    liveUrl: "#"
+    embed: { src: "https://mikrw.github.io/chameleon_game/?theme=light", title: "Escape the Terrarium" },
+    repoUrl: "https://github.com/MIKRW/chameleon_game",
+    liveUrl: "https://mikrw.github.io/chameleon_game/"
   },
   projectTwo: {
     name: "[Project Two Name]",

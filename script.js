@@ -116,9 +116,16 @@ function renderContent() {
         </div>
       </div>`;
 
+  // With an embed: title/desc/links centered above the live iframe.
   // With a video: title/links/desc centered above a photo+video row.
-  // Without one: split layout, text on the left and the carousel on the right.
-  featuredEl.innerHTML = hasVideo ? `
+  // Without either: split layout, text on the left and the carousel on the right.
+  featuredEl.innerHTML = featured.embed ? `
+    <h2 class="featured-title">${featured.name}</h2>
+    <p class="featured-desc">${featured.description}</p>
+    ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
+    <div class="game-wrap">
+      <iframe id="gameFrame" src="${featured.embed.src}" title="${featured.embed.title}" loading="lazy" scrolling="no"></iframe>
+    </div>` : hasVideo ? `
     <h2 class="featured-title">${featured.name}</h2>
     ${featuredLinksHtml ? `<div class="featured-links">${featuredLinksHtml}</div>` : ''}
     <p class="featured-desc">${featured.description}</p>

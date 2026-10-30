@@ -1,6 +1,6 @@
 // ============================================================================
 // BANNER CONTENT — hero name/role/pitch/status and the CTA button labels
-// that sit under it (About Me / View Projects / Certs / Download Resume).
+// that sit under it (About Me / Projects / Credentials / Download Resume).
 // Clicking those buttons drops down the matching section further down the
 // page (see script.js setActiveTab).
 // ============================================================================
@@ -16,7 +16,7 @@ SITE_CONTENT.hero = {
 
 SITE_CONTENT.bannerButtons = {
   about: "About Me",
-  projects: "View Projects",
+  projects: "Projects",
   certs: "Credentials",
   resume: "Download Resume"
 };

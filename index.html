@@ -81,13 +81,7 @@
     <div class="status-bar"><span class="pulse"></span>STATUS: <span id="heroStatus"></span></div>
 
     <div class="cta-row">
-      <button class="btn primary btn-icon active" data-tab="game" type="button" aria-label="Play a game" title="Play a game">
-        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-          <line x1="5" y1="3" x2="5" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path class="banner-shape" d="M5 4 H17 L14 7.5 L17 11 H5 Z"/>
-        </svg>
-      </button>
-      <button class="btn primary" data-tab="about" type="button"><span id="btnAboutLabel"></span></button>
+      <button class="btn primary active" data-tab="about" type="button"><span id="btnAboutLabel"></span></button>
       <button class="btn primary" data-tab="projects" type="button"><span id="btnProjectsLabel"></span></button>
       <button class="btn primary" data-tab="certs" type="button"><span id="btnCertsLabel"></span></button>
       <a class="btn primary" href="resume.pdf" data-chameleon-target="resume" download>
@@ -103,19 +97,7 @@
 
   <div class="details-panel" id="detailsPanel">
 
-  <section id="game" class="tab-section active">
-    <div class="game-wrap">
-      <iframe
-        id="gameFrame"
-        src="https://mikrw.github.io/chameleon_game/?theme=light"
-        title="Escape the Terrarium"
-        loading="lazy"
-        scrolling="no"
-      ></iframe>
-    </div>
-  </section>
-
-  <section id="about" class="tab-section">
+  <section id="about" class="tab-section active">
     <div class="media-placeholder about-portrait" id="aboutPortrait" data-src="portrait.jpg"></div>
     <h2 class="center">Who I am</h2>
     <div class="about-text center" id="aboutText"></div>

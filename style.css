@@ -208,22 +208,8 @@ h1{
 .btn.primary:hover{ background: var(--accent-dim); border-color: var(--accent-dim); color: var(--on-accent); }
 .btn.primary.active{ background: var(--on-accent); color: var(--text); border-color: var(--accent); border-width: 2px; padding: 9px 17px; }
 .btn.primary.active:hover{ background: var(--on-accent); color: var(--text); border-color: var(--accent-dim); border-width: 2px; }
-.btn.primary.active.btn-icon{ padding: 9px 13px; }
 .btn.ghost{ background: var(--surface-2); color: var(--text); font-weight:600; }
 .btn.ghost:hover{ background: var(--accent-dim); color: var(--on-accent); border-color: var(--accent-dim); }
-.btn-icon{ padding: 10px 14px; }
-.btn-icon .icon{ display:block; }
-.banner-shape{
-  fill: #FF4D4D;
-  animation: bannerHueCycle 4s linear infinite;
-}
-@keyframes bannerHueCycle{
-  0%{ filter: hue-rotate(0deg) saturate(1.5); }
-  100%{ filter: hue-rotate(360deg) saturate(1.5); }
-}
-@media (prefers-reduced-motion: reduce){
-  .banner-shape{ animation: none; }
-}
 
 /* ---- Section shell ---- */
 section{ padding: 64px 0; border-top: 1px solid var(--border); scroll-margin-top: 76px; }
@@ -248,8 +234,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 .about-text{ color: var(--text-muted); max-width: 640px; font-size: var(--text-md); }
 .about-text p + p{ margin-top: 14px; }
 
-/* game */
-#game{ text-align: center; }
+/* game — embedded in the featured project card */
 .game-wrap{
   max-width: 960px; margin: 8px auto 0;
 }
@@ -263,11 +248,8 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 /* projects */
 .featured-title{ text-align: center; margin-bottom: 28px; }
 
-.featured-project{
-  background: rgba(var(--surface-rgb), var(--card-opacity)); border:1px solid var(--border); border-radius: 10px;
-  padding: 24px; margin-bottom: 40px;
-  backdrop-filter: blur(6px);
-}
+/* sits straight on the page background, like the About / Credentials tabs */
+.featured-project{ padding-bottom: 64px; }
 
 .featured-media{
   display:grid;
@@ -359,17 +341,18 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
   display:block; border-radius: 6px; background: #000; aspect-ratio: 4 / 5; object-fit: cover;
 }
 
-.featured-desc{ color: var(--text-muted); font-size: var(--text-md); max-width: 700px; margin: 0 auto 20px; text-align: center; }
+.featured-desc{ color: var(--text-muted); font-size: var(--text-md); max-width: 640px; margin: 0 auto 28px; text-align: center; }
 .featured-links{ display:flex; flex-wrap:wrap; justify-content: center; gap: 12px; margin-bottom: 16px; }
 
-.secondary-projects{ display:flex; flex-direction:column; gap: 10px; }
+.secondary-projects{ display:flex; flex-direction:column; }
 
+/* same full-width divider as the one above the first project */
 .secondary-project{
-  border: 1px solid var(--border); border-radius: 8px; background: var(--surface); overflow:hidden;
+  border-top: 1px solid var(--border); overflow:hidden;
 }
 .secondary-project-toggle{
   width: 100%; display:flex; align-items:center; justify-content:space-between; gap: 12px;
-  padding: 14px 18px; background:none; border:none; cursor:pointer;
+  padding: 24px 18px; background:none; border:none; cursor:pointer;
   font-family: var(--sans); font-size: var(--text-md); font-weight:600; color: var(--text); text-align:left;
 }
 .secondary-project-toggle svg{ flex-shrink:0; color: var(--text-muted); transition: transform .2s ease; }
