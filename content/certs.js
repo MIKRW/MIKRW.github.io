@@ -14,6 +14,7 @@ SITE_CONTENT.shortCourses = [
 ];
 
 SITE_CONTENT.education = [
+  { name: "Bachelor of Information Technology", format: "inline", meta: "La Trobe University · 2025 – 2028", status: "Ongoing" },
   { name: "Certificate III in Information Technology (Animation/Gaming)", format: "inline", meta: "[School / Bootcamp Name] · 2025", status: "Completed" },
   { name: "Certificate IV in Visual Arts", format: "inline", meta: "Wodonga TAFE · 2024", status: "Completed" },
   { name: "Bachelor of Science", format: "inline", meta: "Australian National University · 2019", status: "Completed" }
