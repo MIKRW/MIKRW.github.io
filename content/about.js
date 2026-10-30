@@ -5,6 +5,6 @@
 window.SITE_CONTENT = window.SITE_CONTENT || {};
 
 SITE_CONTENT.about = [
-  "[Write 2–4 sentences here: your background, what drew you to IT/dev/cyber, and what you're working on now — a bootcamp, a degree, self-taught projects, or a current job you're building on.]",
-  "[Optional second paragraph: what kind of role you're aiming for next, and what you're best at — troubleshooting, writing scripts, securing systems, or something else.]"
+  "Hi my name is Mikaela, I am in the process of breaking into the tech industry. There are so many avenues to explore and I'm currently narrowing down the areas which interest me the most and their relevant qualifications and certifications. Instead of going full on into learning specific coding languages I've been testing out AI to see what it can do and which skills I can develop to fill the gap.",
+  "I'm very interested in life science, all things nature and the creative industry and would like to work on projects that impact or interact with these areas. However I am more focussed on developing skills where there are current employment opportunities. I would like to work in a medium to large workplace where there are opportunities for growth and the chance to contribute to team projects and goals."
 ];
