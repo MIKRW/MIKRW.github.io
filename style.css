@@ -12,7 +12,7 @@
   --surface-2: #F1E9F3;
   --border: #E3D6EA;
   --text: #2E2238;
-  --text-muted: #6B5E76;
+  --text-muted: #554860;
   --accent: #7A4BA6;
   --accent-rgb: 122,75,166;
   --accent-dim: #966ABD;
@@ -25,10 +25,10 @@
   --header-rgb: 224,206,224;
   --header-border: #C6AADB;
   --nav-icon-bg: #FDFBFE;
-  --nav-icon-hover-bg: var(--nav-icon-bg);
-  --nav-icon-hover-color: #966ABD;
+  --nav-icon-hover-bg: #966ABD;
+  --nav-icon-hover-color: #FDFBFE;
   --nav-icon-border: #C6AADB;
-  --nav-icon-hover-border: var(--nav-icon-border);
+  --nav-icon-hover-border: #966ABD;
   --header-accent: #7A4BA6;
   --logo-bg: #9663C4; /* 265 purple */
   --logo-fg: #FFFDFA;
@@ -65,7 +65,7 @@
   --surface-2: #123550;
   --border: #1E4560;
   --text: #E6F0F6;
-  --text-muted: #9DB8CA;
+  --text-muted: #B4CBDA;
   --accent: #75B2DD;
   --accent-rgb: 117,178,221;
   --accent-dim: #5FB3B5;
@@ -77,14 +77,14 @@
   --header-rgb: 0,45,71;
   --header-border: #00607C;
   --nav-icon-bg: var(--surface-2);
-  --nav-icon-hover-bg: var(--nav-icon-bg);
+  --nav-icon-hover-bg: #00607C;
   --nav-icon-hover-color: #A8CEE2;
   --logo-bg: #007AA5; /* 307 blue */
   --logo-fg: #F2F8FC;
   --logo-ring: #75B2DD; /* 292 sky blue, same as the accent */
   --nav-icon-border: #00607C;
   --dots: #004F6D;
-  --nav-icon-hover-border: var(--nav-icon-border);
+  --nav-icon-hover-border: #A8CEE2;
   --header-accent: var(--accent);
   --nav-icon-color: var(--header-accent);
   --btn-border: var(--header-border);
@@ -381,6 +381,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 .about-portrait{
   aspect-ratio: 1 / 1; width: 213px; border-radius: 50%;
   margin: 0 auto 64px;
+  outline: 3px solid var(--accent); outline-offset: 6px;
 }
 
 .video-placeholder{
