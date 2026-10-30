@@ -46,12 +46,23 @@ function loadScript(src) {
   });
 }
 
-async function loadChameleonPet() {
-  const oneko = document.getElementById('oneko');
-  if (oneko) oneko.remove();
+const PET_HIDDEN_KEY = 'chameleonPetHidden';
 
-  for (const path of PET_SCRIPTS) {
-    await loadScript(PET_BASE + path);
+let petScriptsLoaded = false;
+
+function setOnekoVisible(visible) {
+  const oneko = document.getElementById('oneko');
+  if (oneko) oneko.style.display = visible ? '' : 'none';
+}
+
+async function showChameleonPet() {
+  setOnekoVisible(false);
+
+  if (!petScriptsLoaded) {
+    for (const path of PET_SCRIPTS) {
+      await loadScript(PET_BASE + path);
+    }
+    petScriptsLoaded = true;
   }
 
   const pet = window.ChameleonPet.init();
@@ -61,7 +72,37 @@ async function loadChameleonPet() {
   }
 }
 
+function hideChameleonPet() {
+  if (window.__chameleonPetInstance) {
+    window.__chameleonPetInstance.destroy();
+    // ChameleonPet.init() returns the cached instance, so clear it to allow a fresh one later.
+    window.__chameleonPetInstance = null;
+  }
+  setOnekoVisible(true);
+}
+
 const petUnlockBtn = document.getElementById('petUnlockBtn');
+
+function isPetUnlocked() {
+  return localStorage.getItem(PET_UNLOCKED_KEY) === '1';
+}
+
+function isPetHidden() {
+  return localStorage.getItem(PET_HIDDEN_KEY) === '1';
+}
+
+function updatePetButton() {
+  if (!petUnlockBtn) return;
+  if (!isPetUnlocked()) {
+    petUnlockBtn.title = 'Got the terrarium flag?';
+    petUnlockBtn.removeAttribute('aria-pressed');
+    return;
+  }
+  const on = !isPetHidden();
+  petUnlockBtn.title = on ? 'Hide the chameleon' : 'Show the chameleon';
+  petUnlockBtn.setAttribute('aria-pressed', String(on));
+  petUnlockBtn.classList.toggle('is-active', on);
+}
 
 async function tryUnlockPet(guess) {
   if (!PET_FLAG_HASH) {
@@ -71,21 +112,37 @@ async function tryUnlockPet(guess) {
   const hash = await sha256Hex(guess);
   if (hash === PET_FLAG_HASH) {
     localStorage.setItem(PET_UNLOCKED_KEY, '1');
-    petUnlockBtn.remove();
-    await loadChameleonPet();
+    localStorage.removeItem(PET_HIDDEN_KEY);
+    updatePetButton();
+    await showChameleonPet();
   } else {
     window.alert('Not quite — that flag doesn\'t match.');
   }
 }
 
+function togglePet() {
+  if (isPetHidden()) {
+    localStorage.removeItem(PET_HIDDEN_KEY);
+    showChameleonPet();
+  } else {
+    localStorage.setItem(PET_HIDDEN_KEY, '1');
+    hideChameleonPet();
+  }
+  updatePetButton();
+}
+
 if (petUnlockBtn) {
   petUnlockBtn.addEventListener('click', () => {
+    if (isPetUnlocked()) {
+      togglePet();
+      return;
+    }
     const guess = window.prompt('Enter the terrarium flag:');
     if (guess) tryUnlockPet(guess);
   });
 }
 
-if (localStorage.getItem(PET_UNLOCKED_KEY) === '1') {
-  petUnlockBtn?.remove();
-  loadChameleonPet();
+updatePetButton();
+if (isPetUnlocked() && !isPetHidden()) {
+  showChameleonPet();
 }
