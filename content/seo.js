@@ -15,7 +15,7 @@
 window.SITE_CONTENT = window.SITE_CONTENT || {};
 
 SITE_CONTENT.seo = {
-  siteUrl: "https://mikrw.github.io/portfolio_site/",
+  siteUrl: "https://mikrw.github.io/",
 
   // Same copy that's mirrored into index.html's static meta description / og:description.
   description: "Mikaela is a uni student building projects in IT, development, and cybersecurity, and looking for internships.",

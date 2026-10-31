@@ -8,18 +8,6 @@ const PHOTO_ICON_SVG = (size) => `
     <path d="M21 15l-5-5L5 21"/>
   </svg>`;
 
-const ICON_GITHUB = `
-  <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12 2C6.48 2 2 6.58 2 12.2c0 4.49 2.87 8.3 6.84 9.64.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.22-3.37-1.22-.45-1.18-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1.0.07 1.53 1.05 1.53 1.05.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.63-1.36-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.9-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.2C22 6.58 17.52 2 12 2Z"/>
-  </svg>`;
-
-const ICON_EXTERNAL = `
-  <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-    <path d="M15 3h6v6"/>
-    <path d="M10 14 21 3"/>
-  </svg>`;
-
 const ICON_CHEVRON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
 
 const BADGE_ICON_SVG = (size) => `
@@ -28,9 +16,13 @@ const BADGE_ICON_SVG = (size) => `
     <path d="M9.5 14.5 8 22l4-2 4 2-1.5-7.5"/>
   </svg>`;
 
+// Unfilled template fields look like "[Project Two Name]" — treat those (and blanks) as no content.
+const isPlaceholder = text => typeof text !== 'string' || !text.trim() || /^\[.*\]$/.test(text.trim());
+
 // A media-placeholder that quietly upgrades to a real photo if the file exists,
 // so dropping an image in with the right filename is all that's needed later.
 function loadPhotoInto(el, src) {
+  if (isPlaceholder(src)) return;
   const img = new Image();
   img.onload = () => {
     el.classList.add('has-image');
@@ -51,7 +43,6 @@ function renderContent() {
   document.getElementById('heroPitch').textContent = c.hero.pitch;
   document.getElementById('heroStatus').textContent = c.hero.status;
   document.getElementById('footerName').textContent = c.hero.name;
-  document.title = `${c.hero.name} — Portfolio`;
 
   // Banner CTA button labels
   document.getElementById('btnAboutLabel').textContent = c.bannerButtons.about;
@@ -73,9 +64,7 @@ function renderContent() {
 
   // Projects — projectOrder[0] is the featured slot; everything after is secondary.
   const isRealLink = url => !!url && url.trim() !== '' && url.trim() !== '#';
-  // Unfilled template fields look like "[Project Two Name]" — treat those (and blanks) as no content.
-  const isPlaceholderText = text => !text || !text.trim() || /^\[.*\]$/.test(text.trim());
-  const hasRealContent = project => !isPlaceholderText(project.name) && !isPlaceholderText(project.description);
+  const hasRealContent = project => !isPlaceholder(project.name) && !isPlaceholder(project.description);
   const [featuredId, ...secondaryIds] = c.projectOrder;
   const featured = c.projectsById[featuredId];
 
@@ -106,7 +95,7 @@ function renderContent() {
         </div>
       </div>` : '';
 
-  const carouselHtml = `
+  const carouselHtml = featured.photos.length === 0 ? '' : `
       <div class="featured-photo-carousel">
         <div class="carousel-track">
           ${slidesHtml}
@@ -166,10 +155,10 @@ function renderContent() {
             <p>${project.description}</p>
             ${link ? `<a href="${link}" target="_blank" rel="noopener">View Project →</a>` : ''}
           </div>
-          <div class="media-placeholder small" data-src="${thumb.src}">
+          ${thumb ? `<div class="media-placeholder small" data-src="${thumb.src}">
             ${PHOTO_ICON_SVG(22)}
-            <span>Photo — replace with ${thumb.src}</span>
-          </div>
+            <span>${thumb.label}</span>
+          </div>` : ''}
         </div>
       </div>
     </div>`;
@@ -180,8 +169,6 @@ function renderContent() {
   });
 
   // Certs
-  const isPlaceholder = (val) => typeof val === 'string' && /^\[.*\]$/.test(val.trim());
-
   const setSectionVisible = (listEl, visible) => {
     listEl.style.display = visible ? '' : 'none';
     const heading = listEl.previousElementSibling;
@@ -201,7 +188,9 @@ function renderContent() {
         <div class="cert-row-top">
           <div>
             <div class="cert-name">${cert.name}</div>
-            <div class="cert-meta">${cert.meta}</div>
+            ${cert.profileUrl
+              ? `<a class="cert-meta cert-meta-link" href="${cert.profileUrl}" target="_blank" rel="noopener">${cert.meta}</a>`
+              : `<div class="cert-meta">${cert.meta}</div>`}
           </div>
           <div class="cert-badge-media media-placeholder small" data-src="${cert.badgeSrc}">${BADGE_ICON_SVG(22)}</div>
         </div>
@@ -226,35 +215,18 @@ function renderContent() {
         <span class="cert-status">${cert.status}</span>
       </div>`;
     }).join('');
-    document.querySelectorAll(`#${id} .media-placeholder[data-src]`).forEach(el => {
+    listEl.querySelectorAll('.media-placeholder[data-src]').forEach(el => {
       loadPhotoInto(el, el.dataset.src);
     });
   };
   renderCertList('certList', c.certs);
   renderCertList('shortCoursesList', c.shortCourses);
   renderCertList('educationList', c.education);
-
-  const handsOnPracticeListEl = document.getElementById('handsOnPracticeList');
-  const handsOnPractice = c.handsOnPractice.filter(platform => !isPlaceholder(platform.name));
-  setSectionVisible(handsOnPracticeListEl, handsOnPractice.length > 0);
-  handsOnPracticeListEl.innerHTML = handsOnPractice.map(platform => `
-    <div class="cert-row cert-row--badge">
-      <div class="cert-row-top">
-        <div>
-          <div class="cert-name">${platform.name}</div>
-          <a class="cert-meta cert-meta-link" href="${platform.profileUrl}" target="_blank" rel="noopener">${platform.meta}</a>
-        </div>
-        <div class="cert-badge-media media-placeholder small" data-src="${platform.badgeSrc}">${BADGE_ICON_SVG(22)}</div>
-      </div>
-    </div>`).join('');
-  document.querySelectorAll('#handsOnPracticeList .media-placeholder[data-src]').forEach(el => {
-    loadPhotoInto(el, el.dataset.src);
-  });
+  renderCertList('handsOnPracticeList', c.handsOnPractice);
 
   // Whichever heading ends up first (earlier ones may be hidden if empty) sits flush
   // against the section's top padding, so every tab opens with the same gap under the divider.
   const certsHeadings = document.querySelectorAll('#certs > h2, #certs > .cert-subheading');
-  certsHeadings.forEach(h => { h.style.marginTop = ''; });
   const firstVisibleCertsHeading = Array.from(certsHeadings).find(h => h.style.display !== 'none');
   if (firstVisibleCertsHeading) firstVisibleCertsHeading.style.marginTop = '0';
 
@@ -330,7 +302,6 @@ function syncPetTheme() {
 // brings the toggle's label in line with it and keeps the embeds in sync.
 function syncToggleLabel(theme) {
   const next = theme === 'dark' ? 'light' : 'dark';
-  themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
   themeToggle.setAttribute('aria-label', `Switch to ${next} theme`);
   themeToggle.setAttribute('title', `Switch to ${next} theme`);
 }
@@ -358,8 +329,8 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (ev
 });
 
 // ---- Tab switching: buttons control which section is shown ----
-const panel = document.getElementById('detailsPanel');
 const tabSections = document.querySelectorAll('.tab-section');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function setActiveTab(id) {
   tabSections.forEach(sec => sec.classList.toggle('active', sec.id === id));
@@ -368,16 +339,20 @@ function setActiveTab(id) {
   });
   // Always scroll back to the very top so the hero (and the buttons) is fully visible,
   // regardless of how far down the previous tab's content was scrolled.
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
-  btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
+  btn.addEventListener('click', (e) => {
+    // Tab links (e.g. the nav's #email) switch tabs instead of jumping to the hash.
+    if (btn.tagName === 'A') e.preventDefault();
+    setActiveTab(btn.dataset.tab);
+  });
 });
 
 // ---- Contact form: submit via Formspree ----
 // content/contact.js holds the Formspree form ID, so no real email address ever
-// appears in the page source. Fill in the real form ID there once you've created the form.
+// appears in the page source.
 const contactForm = document.getElementById('contactForm');
 const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 const contactFormStatus = document.getElementById('contactFormStatus');
@@ -387,6 +362,8 @@ const MESSAGE_MAX_LENGTH = 500;
 // Plain-text messages only — reject anything that looks like a link so people can't
 // slip malicious/spam URLs into an inbox via the contact form.
 const LINK_PATTERN = /(https?:\/\/|www\.|\b[a-z0-9-]+\.(com|net|org|io|co|dev|xyz|info|biz|ru|cn)\b)/i;
+// Email addresses are stripped before the link check so "reach me at jane@company.com" is allowed.
+const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+/g;
 
 messageBody.addEventListener('input', () => {
   const len = messageBody.value.length;
@@ -399,7 +376,11 @@ contactForm.addEventListener('submit', async (e) => {
   contactFormStatus.textContent = '';
   contactFormStatus.className = 'form-status';
 
-  if (LINK_PATTERN.test(messageBody.value)) {
+  // The form is novalidate (to keep styling consistent), so run the built-in
+  // required / type="email" checks here before anything is sent.
+  if (!contactForm.reportValidity()) return;
+
+  if (LINK_PATTERN.test(messageBody.value.replace(EMAIL_PATTERN, ''))) {
     contactFormStatus.textContent = 'Please remove links/URLs from your message — text only.';
     contactFormStatus.classList.add('error');
     return;
@@ -456,6 +437,7 @@ document.querySelectorAll('.featured-photo-carousel').forEach(carousel => {
   const prevBtn = carousel.querySelector('.carousel-prev');
   const nextBtn = carousel.querySelector('.carousel-next');
   let current = 0;
+  if (slides.length === 0) return;
 
   function showSlide(index) {
     current = (index + slides.length) % slides.length;
@@ -466,16 +448,5 @@ document.querySelectorAll('.featured-photo-carousel').forEach(carousel => {
   prevBtn.addEventListener('click', () => showSlide(current - 1));
   nextBtn.addEventListener('click', () => showSlide(current + 1));
   dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  const id = link.getAttribute('href').slice(1);
-  const targetEl = document.getElementById(id);
-  if (targetEl && targetEl.classList.contains('tab-section')) {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      setActiveTab(id);
-    });
-  }
 });
 

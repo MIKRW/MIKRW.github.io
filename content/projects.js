@@ -32,7 +32,7 @@ SITE_CONTENT.projectOrder = ["projectOne", "projectTwo", "projectThree", "projec
 SITE_CONTENT.projectsById = {
   projectOne: {
     name: "Escape the Terrarium",
-    description: "A browser-based capture-the-flag game: help a chameleon break out of its terrarium by solving puzzles to uncover the hidden flag.",
+    description: "A short browser-based capture-the-flag game. Help a chameleon break out of its terrarium by solving puzzles to uncover the hidden flag.",
     photos: [],
     video: null,
     embed: { src: "https://mikrw.github.io/chameleon_game/?theme=light", title: "Escape the Terrarium" },

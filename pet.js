@@ -83,11 +83,20 @@ async function showChameleonPet() {
   setOnekoVisible(false);
 
   if (!petScriptsLoaded) {
-    for (const path of PET_SCRIPTS) {
-      await loadScript(PET_BASE + path);
+    try {
+      for (const path of PET_SCRIPTS) {
+        await loadScript(PET_BASE + path);
+      }
+      petScriptsLoaded = true;
+    } catch (e) {
+      // Pet repo unreachable — fall back to the cat rather than leaving no pet at all.
+      setOnekoVisible(true);
+      return;
     }
-    petScriptsLoaded = true;
   }
+
+  // The visitor may have hidden the pet again while its scripts were still loading.
+  if (isPetHidden() || window.__chameleonPetInstance) return;
 
   const pet = window.ChameleonPet.init();
   window.__chameleonPetInstance = pet;
@@ -107,12 +116,24 @@ function hideChameleonPet() {
 
 const petUnlockBtn = document.getElementById('petUnlockBtn');
 
+// Storage can throw (private windows, blocked site data), so every access goes
+// through these and fails quietly, like the theme code in index.html.
+function storageGet(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function storageSet(key, value) {
+  try { localStorage.setItem(key, value); } catch (e) {}
+}
+function storageRemove(key) {
+  try { localStorage.removeItem(key); } catch (e) {}
+}
+
 function isPetUnlocked() {
-  return localStorage.getItem(PET_UNLOCKED_KEY) === '1';
+  return storageGet(PET_UNLOCKED_KEY) === '1';
 }
 
 function isPetHidden() {
-  return localStorage.getItem(PET_HIDDEN_KEY) === '1';
+  return storageGet(PET_HIDDEN_KEY) === '1';
 }
 
 function updatePetButton() {
@@ -129,14 +150,10 @@ function updatePetButton() {
 }
 
 async function tryUnlockPet(guess) {
-  if (!PET_FLAG_HASH) {
-    window.alert("Pet unlock isn't configured yet — PET_FLAG_HASH is empty in pet.js.");
-    return;
-  }
   const hash = await sha256Hex(guess);
   if (hash === PET_FLAG_HASH) {
-    localStorage.setItem(PET_UNLOCKED_KEY, '1');
-    localStorage.removeItem(PET_HIDDEN_KEY);
+    storageSet(PET_UNLOCKED_KEY, '1');
+    storageRemove(PET_HIDDEN_KEY);
     updatePetButton();
     await showChameleonPet();
   } else {
@@ -146,10 +163,10 @@ async function tryUnlockPet(guess) {
 
 function togglePet() {
   if (isPetHidden()) {
-    localStorage.removeItem(PET_HIDDEN_KEY);
+    storageRemove(PET_HIDDEN_KEY);
     showChameleonPet();
   } else {
-    localStorage.setItem(PET_HIDDEN_KEY, '1');
+    storageSet(PET_HIDDEN_KEY, '1');
     hideChameleonPet();
   }
   updatePetButton();
