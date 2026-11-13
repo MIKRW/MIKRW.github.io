@@ -204,6 +204,11 @@ function renderContent() {
           <span class="cert-status">${cert.status}</span>
         </div>
         <div class="cert-meta">${cert.meta}</div>
+        ${cert.linkText
+          ? (isPlaceholder(cert.linkUrl)
+            ? `<div class="cert-meta">${cert.linkText}</div>`
+            : `<a class="cert-meta cert-meta-link" href="${cert.linkUrl}" target="_blank" rel="noopener">${cert.linkText}</a>`)
+          : ''}
       </div>`;
       }
       return `
