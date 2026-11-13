@@ -19,10 +19,11 @@
 //     - embed: optional { src, title } — embeds a live page (e.g. a game) in
 //       an iframe under the description, replacing the photos/video layout.
 //   EVERY OTHER PROJECT (2nd key onward):
-//     - photos: only photos[0] is used, as a single thumbnail.
-//     - video: ignored even if set.
-//     - link: liveUrl is used if set; otherwise repoUrl is used; if neither
-//       is set (both "#" or blank), no link is shown.
+//     - laid out like the featured project: title, description, buttons.
+//     - video: optional { src } — shown on a card under the buttons.
+//     - photos: only photos[0] is used, as a single image under that.
+//     - repoUrl / liveUrl: same "View Repo" / "View Site" buttons as the
+//       featured project; "#" or blank hides that button.
 // ============================================================================
 
 window.SITE_CONTENT = window.SITE_CONTENT || {};
@@ -32,7 +33,7 @@ SITE_CONTENT.projectOrder = ["projectOne", "projectTwo", "projectThree", "projec
 SITE_CONTENT.projectsById = {
   projectOne: {
     name: "Escape the Terrarium",
-    description: "A short browser-based capture-the-flag game. Help a chameleon break out of its terrarium by solving puzzles to uncover the hidden flag.",
+    description: "A short browser-based game based on capture-the-flag. Help a chameleon break out of its terrarium by solving puzzles to uncover the hidden flag.",
     photos: [],
     video: null,
     embed: { src: "https://mikrw.github.io/chameleon_game/?theme=light", title: "Escape the Terrarium" },
@@ -40,10 +41,13 @@ SITE_CONTENT.projectsById = {
     liveUrl: "https://mikrw.github.io/chameleon_game/"
   },
   projectTwo: {
-    name: "Who's That Bird?",
-    description: "First attempt at creating a prototype app using Google Firebase during an Innovation Sprint with Google Developer Group (La Trobe University). The theme was \"Build AI for a Better World\".",
+    name: "Name That Bird",
+    description: "First attempt at creating a prototype app using Google Firebase during an Innovation Sprint with Google Developer Group (La Trobe University). The theme was \"Build AI for a Better World\". You can see my video demonstration below or view more information in the GitHub repo.",
     photos: [],
-    video: null,
+    // TEMP: points at the original 501 MB export, which only works locally —
+    // GitHub rejects files over 100 MB. Swap for a compressed copy (or a
+    // hosted link) before pushing.
+    video: { src: "Name%20that%20Bird%20.mp4" },
     repoUrl: "https://github.com/MIKRW/GDG_InnovationSprint_2025",
     liveUrl: "#"
   },

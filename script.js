@@ -8,7 +8,6 @@ const PHOTO_ICON_SVG = (size) => `
     <path d="M21 15l-5-5L5 21"/>
   </svg>`;
 
-const ICON_CHEVRON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
 
 const BADGE_ICON_SVG = (size) => `
   <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -134,38 +133,32 @@ function renderContent() {
     loadPhotoInto(slide, slide.dataset.src);
   });
 
-  // Projects — secondary. Entries with a placeholder/blank name are skipped so
-  // visitors never land on a card promising content that isn't there yet —
-  // blank the name in content/projects.js and the card disappears on its own.
-  // A placeholder description is just left out, so a card can go up title-first.
+  // Projects — secondary. Laid out like the featured project (title, then
+  // description, then View Site / View Repo buttons), always open, each under
+  // its own divider. Entries with a placeholder/blank name are skipped so
+  // visitors never land on a card promising content that isn't there yet;
+  // a placeholder description is just left out.
   const secondaryEl = document.getElementById('secondaryProjects');
   secondaryEl.innerHTML = secondaryIds.map(id => c.projectsById[id]).filter(hasRealContent).map(project => {
     const thumb = project.photos[0];
-    // Same "View Site" / "View Repo" buttons as the featured project; each is
-    // hidden when its URL is "#" or blank.
     const linksHtml = [
       isRealLink(project.liveUrl) ? `<a class="btn primary" href="${project.liveUrl}" target="_blank" rel="noopener">View Site</a>` : '',
       isRealLink(project.repoUrl) ? `<a class="btn ghost" href="${project.repoUrl}" target="_blank" rel="noopener">View Repo</a>` : ''
     ].join('');
     return `
     <div class="secondary-project">
-      <button class="secondary-project-toggle" type="button" aria-expanded="false">
-        <span>${project.name}</span>
-        ${ICON_CHEVRON}
-      </button>
-      <div class="secondary-project-body">
-        <div class="secondary-project-split">
-          <div class="secondary-project-text">
-            <h3 class="secondary-project-title">${project.name}</h3>
-            ${isPlaceholder(project.description) ? '' : `<p>${project.description}</p>`}
-            ${linksHtml ? `<div class="featured-links">${linksHtml}</div>` : ''}
-          </div>
-          ${thumb ? `<div class="media-placeholder small" data-src="${thumb.src}">
-            ${PHOTO_ICON_SVG(22)}
-            <span>${thumb.label}</span>
-          </div>` : ''}
-        </div>
-      </div>
+      <h2 class="featured-title">${project.name}</h2>
+      ${isPlaceholder(project.description) ? '' : `<p class="featured-desc">${project.description}</p>`}
+      ${linksHtml ? `<div class="featured-links">${linksHtml}</div>` : ''}
+      ${project.video ? `<div class="project-video-card">
+        <video controls preload="metadata" playsinline src="${project.video.src}">
+          Your browser doesn't support embedded video. <a href="${project.video.src}">Download it instead</a>.
+        </video>
+      </div>` : ''}
+      ${thumb ? `<div class="media-placeholder secondary-project-photo" data-src="${thumb.src}">
+        ${PHOTO_ICON_SVG(22)}
+        <span>${thumb.label}</span>
+      </div>` : ''}
     </div>`;
   }).join('');
 
@@ -210,7 +203,10 @@ function renderContent() {
         </div>
         <div class="cert-meta">${cert.meta}</div>
         ${cert.linkText
-          ? (isPlaceholder(cert.linkUrl)
+          ? (cert.linkTab
+            // In-site link: switches tabs via the shared [data-tab] handler below.
+            ? `<a class="cert-meta cert-meta-link" href="#${cert.linkTab}" data-tab="${cert.linkTab}">${cert.linkText}</a>`
+            : isPlaceholder(cert.linkUrl)
             ? `<div class="cert-meta">${cert.linkText}</div>`
             : `<a class="cert-meta cert-meta-link" href="${cert.linkUrl}" target="_blank" rel="noopener">${cert.linkText}</a>`)
           : ''}
@@ -429,15 +425,6 @@ contactForm.addEventListener('submit', async (e) => {
     contactSubmitBtn.textContent = 'Send Message';
     if (window.grecaptcha) grecaptcha.reset();
   }
-});
-
-// ---- Secondary project accordion cards ----
-document.querySelectorAll('.secondary-project-toggle').forEach(toggleBtn => {
-  toggleBtn.addEventListener('click', () => {
-    const card = toggleBtn.closest('.secondary-project');
-    const isOpen = card.classList.toggle('open');
-    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
 });
 
 // ---- Featured project photo carousel ----

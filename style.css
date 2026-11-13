@@ -379,47 +379,18 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 
 .secondary-projects{ display:flex; flex-direction:column; }
 
-/* same full-width divider as the one above the first project */
-.secondary-project{
-  border-top: 1px solid var(--border); overflow:hidden;
-}
-/* title styled like the featured .featured-title (h2): centered, text-xl, bold.
-   3-column grid keeps the title truly centered with the chevron on the right. */
-.secondary-project-toggle{
-  width: 100%; display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap: 12px;
-  padding: 24px 18px; background:none; border:none; cursor:pointer;
-  font-family: var(--sans); font-size: var(--text-xl); font-weight:700; letter-spacing:-0.01em;
-  color: var(--text); text-align:center;
-}
-.secondary-project-toggle span{ grid-column: 2; }
-.secondary-project-toggle svg{ grid-column: 3; justify-self:end; flex-shrink:0; color: var(--text-muted); transition: transform .2s ease; }
-.secondary-project.open .secondary-project-toggle svg{ transform: rotate(180deg); }
-.secondary-project-toggle span{ transition: opacity .15s ease; }
-.secondary-project.open .secondary-project-toggle span{ opacity: 0; }
+/* same full-width divider as the one above the first project; the content
+   inside reuses the featured-title / featured-desc / featured-links styles */
+.secondary-project{ border-top: 1px solid var(--border); padding-top: 64px; }
+.secondary-project:not(:last-child){ padding-bottom: 64px; }
+.secondary-project-photo{ max-width: 640px; margin: 16px auto 0; }
 
-.secondary-project-body{
-  max-height: 0; overflow:hidden; padding: 0 18px; transition: max-height .3s ease;
+/* video card under a secondary project's title/description/buttons */
+.project-video-card{
+  max-width: 960px; margin: 16px auto 0; padding: 12px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
 }
-.secondary-project.open .secondary-project-body{ max-height: 600px; padding: 0 18px 18px; }
-
-/* same left-text / right-image split as the featured project without a video */
-.secondary-project-split{
-  display:grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items:start;
-}
-.secondary-project-text{ display:flex; flex-direction:column; }
-.secondary-project-title{
-  text-align:center; font-size: var(--text-xl); font-weight:700; letter-spacing:-0.01em;
-  margin: 4px 0 20px;
-}
-.secondary-project-split .media-placeholder.small{ max-width:none; width:100%; margin:0; }
-
-@media (max-width: 640px){
-  .secondary-project-split{ grid-template-columns: 1fr; }
-}
-
-.secondary-project-body p{ color: var(--text-muted); font-size: var(--text-base); margin: 0 0 12px; }
-.secondary-project-body a:not(.btn){ color: var(--accent); font-family: var(--mono); font-size: var(--text-sm); }
-.secondary-project-body a:not(.btn):hover{ color: var(--text); }
+.project-video-card video{ display:block; width: 100%; height: auto; border-radius: 6px; background: #000; }
 
 /* certs / education */
 .cert-list{ display:flex; flex-direction:column; gap: 14px; }
