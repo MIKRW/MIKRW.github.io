@@ -64,7 +64,7 @@ function renderContent() {
 
   // Projects — projectOrder[0] is the featured slot; everything after is secondary.
   const isRealLink = url => !!url && url.trim() !== '' && url.trim() !== '#';
-  const hasRealContent = project => !isPlaceholder(project.name) && !isPlaceholder(project.description);
+  const hasRealContent = project => !isPlaceholder(project.name);
   const [featuredId, ...secondaryIds] = c.projectOrder;
   const featured = c.projectsById[featuredId];
 
@@ -134,14 +134,19 @@ function renderContent() {
     loadPhotoInto(slide, slide.dataset.src);
   });
 
-  // Projects — secondary. Placeholder/blank entries are skipped so visitors
-  // never land on a card promising content that isn't there yet (or was
-  // pulled because it's outdated) — just remove/blank the fields in
-  // content/projects.js and the card disappears on its own.
+  // Projects — secondary. Entries with a placeholder/blank name are skipped so
+  // visitors never land on a card promising content that isn't there yet —
+  // blank the name in content/projects.js and the card disappears on its own.
+  // A placeholder description is just left out, so a card can go up title-first.
   const secondaryEl = document.getElementById('secondaryProjects');
   secondaryEl.innerHTML = secondaryIds.map(id => c.projectsById[id]).filter(hasRealContent).map(project => {
     const thumb = project.photos[0];
-    const link = isRealLink(project.liveUrl) ? project.liveUrl : (isRealLink(project.repoUrl) ? project.repoUrl : '');
+    // Same "View Site" / "View Repo" buttons as the featured project; each is
+    // hidden when its URL is "#" or blank.
+    const linksHtml = [
+      isRealLink(project.liveUrl) ? `<a class="btn primary" href="${project.liveUrl}" target="_blank" rel="noopener">View Site</a>` : '',
+      isRealLink(project.repoUrl) ? `<a class="btn ghost" href="${project.repoUrl}" target="_blank" rel="noopener">View Repo</a>` : ''
+    ].join('');
     return `
     <div class="secondary-project">
       <button class="secondary-project-toggle" type="button" aria-expanded="false">
@@ -152,8 +157,8 @@ function renderContent() {
         <div class="secondary-project-split">
           <div class="secondary-project-text">
             <h3 class="secondary-project-title">${project.name}</h3>
-            <p>${project.description}</p>
-            ${link ? `<a href="${link}" target="_blank" rel="noopener">View Project →</a>` : ''}
+            ${isPlaceholder(project.description) ? '' : `<p>${project.description}</p>`}
+            ${linksHtml ? `<div class="featured-links">${linksHtml}</div>` : ''}
           </div>
           ${thumb ? `<div class="media-placeholder small" data-src="${thumb.src}">
             ${PHOTO_ICON_SVG(22)}

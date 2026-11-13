@@ -40,11 +40,11 @@ SITE_CONTENT.projectsById = {
     liveUrl: "https://mikrw.github.io/chameleon_game/"
   },
   projectTwo: {
-    name: "[Project Two Name]",
-    description: "[Short one-sentence description of this project.]",
-    photos: [{ src: "project2.jpg", label: "Photo — replace with project2.jpg" }],
+    name: "Who's That Bird?",
+    description: "First attempt at creating a prototype app using Google Firebase during an Innovation Sprint with Google Developer Group (La Trobe University). The theme was \"Build AI for a Better World\".",
+    photos: [],
     video: null,
-    repoUrl: "#",
+    repoUrl: "https://github.com/MIKRW/GDG_InnovationSprint_2025",
     liveUrl: "#"
   },
   projectThree: {

@@ -280,7 +280,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 /* projects */
 .featured-title{ text-align: center; margin-bottom: 28px; }
 
-/* sits straight on the page background, like the About / Credentials tabs */
+/* sits straight on the page background, like the About / Background tabs */
 .featured-project{ padding-bottom: 64px; }
 
 .featured-media{
@@ -383,12 +383,16 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 .secondary-project{
   border-top: 1px solid var(--border); overflow:hidden;
 }
+/* title styled like the featured .featured-title (h2): centered, text-xl, bold.
+   3-column grid keeps the title truly centered with the chevron on the right. */
 .secondary-project-toggle{
-  width: 100%; display:flex; align-items:center; justify-content:space-between; gap: 12px;
+  width: 100%; display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap: 12px;
   padding: 24px 18px; background:none; border:none; cursor:pointer;
-  font-family: var(--sans); font-size: var(--text-md); font-weight:600; color: var(--text); text-align:left;
+  font-family: var(--sans); font-size: var(--text-xl); font-weight:700; letter-spacing:-0.01em;
+  color: var(--text); text-align:center;
 }
-.secondary-project-toggle svg{ flex-shrink:0; color: var(--text-muted); transition: transform .2s ease; }
+.secondary-project-toggle span{ grid-column: 2; }
+.secondary-project-toggle svg{ grid-column: 3; justify-self:end; flex-shrink:0; color: var(--text-muted); transition: transform .2s ease; }
 .secondary-project.open .secondary-project-toggle svg{ transform: rotate(180deg); }
 .secondary-project-toggle span{ transition: opacity .15s ease; }
 .secondary-project.open .secondary-project-toggle span{ opacity: 0; }
@@ -404,7 +408,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 }
 .secondary-project-text{ display:flex; flex-direction:column; }
 .secondary-project-title{
-  text-align:center; font-size: var(--text-lg); font-weight:700; letter-spacing:-0.01em;
+  text-align:center; font-size: var(--text-xl); font-weight:700; letter-spacing:-0.01em;
   margin: 4px 0 20px;
 }
 .secondary-project-split .media-placeholder.small{ max-width:none; width:100%; margin:0; }
@@ -414,8 +418,8 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 }
 
 .secondary-project-body p{ color: var(--text-muted); font-size: var(--text-base); margin: 0 0 12px; }
-.secondary-project-body a{ color: var(--accent); font-family: var(--mono); font-size: var(--text-sm); }
-.secondary-project-body a:hover{ color: var(--text); }
+.secondary-project-body a:not(.btn){ color: var(--accent); font-family: var(--mono); font-size: var(--text-sm); }
+.secondary-project-body a:not(.btn):hover{ color: var(--text); }
 
 /* certs / education */
 .cert-list{ display:flex; flex-direction:column; gap: 14px; }
