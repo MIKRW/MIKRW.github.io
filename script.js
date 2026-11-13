@@ -151,9 +151,12 @@ function renderContent() {
       ${isPlaceholder(project.description) ? '' : `<p class="featured-desc">${project.description}</p>`}
       ${linksHtml ? `<div class="featured-links">${linksHtml}</div>` : ''}
       ${project.video ? `<div class="project-video-card">
-        <video controls preload="metadata" playsinline src="${project.video.src}">
+        ${project.video.youtubeId
+          // youtube-nocookie: no tracking cookies until the visitor presses play.
+          ? `<iframe src="https://www.youtube-nocookie.com/embed/${project.video.youtubeId}?rel=0" title="${project.name} video demonstration" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`
+          : `<video controls preload="metadata" playsinline src="${project.video.src}">
           Your browser doesn't support embedded video. <a href="${project.video.src}">Download it instead</a>.
-        </video>
+        </video>`}
       </div>` : ''}
       ${thumb ? `<div class="media-placeholder secondary-project-photo" data-src="${thumb.src}">
         ${PHOTO_ICON_SVG(22)}

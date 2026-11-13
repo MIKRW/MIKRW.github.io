@@ -20,7 +20,8 @@
 //       an iframe under the description, replacing the photos/video layout.
 //   EVERY OTHER PROJECT (2nd key onward):
 //     - laid out like the featured project: title, description, buttons.
-//     - video: optional { src } — shown on a card under the buttons.
+//     - video: optional { src } for an .mp4 file, or { youtubeId } for a
+//       YouTube video (the ID after youtu.be/) — shown on a card under the buttons.
 //     - photos: only photos[0] is used, as a single image under that.
 //     - repoUrl / liveUrl: same "View Repo" / "View Site" buttons as the
 //       featured project; "#" or blank hides that button.
@@ -44,10 +45,8 @@ SITE_CONTENT.projectsById = {
     name: "Name That Bird",
     description: "First attempt at creating a prototype app using Google Firebase during an Innovation Sprint with Google Developer Group (La Trobe University). The theme was \"Build AI for a Better World\". You can see my video demonstration below or view more information in the GitHub repo.",
     photos: [],
-    // TEMP: points at the original 501 MB export, which only works locally —
-    // GitHub rejects files over 100 MB. Swap for a compressed copy (or a
-    // hosted link) before pushing.
-    video: { src: "Name%20that%20Bird%20.mp4" },
+    // Unlisted YouTube upload (the 501 MB original is too big for GitHub).
+    video: { youtubeId: "y005VQQoEXs" },
     repoUrl: "https://github.com/MIKRW/GDG_InnovationSprint_2025",
     liveUrl: "#"
   },

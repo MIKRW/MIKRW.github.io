@@ -391,6 +391,7 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
 }
 .project-video-card video{ display:block; width: 100%; height: auto; border-radius: 6px; background: #000; }
+.project-video-card iframe{ display:block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; background: #000; }
 
 /* certs / education */
 .cert-list{ display:flex; flex-direction:column; gap: 14px; }
