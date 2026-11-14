@@ -381,7 +381,8 @@ h2{ font-size: var(--text-xl); font-weight:700; margin-bottom: 28px; letter-spac
 
 /* same full-width divider as the one above the first project; the content
    inside reuses the featured-title / featured-desc / featured-links styles */
-.secondary-project{ border-top: 1px solid var(--border); padding-top: 64px; }
+/* scroll-margin keeps a linked-to project's divider clear of the sticky header */
+.secondary-project{ border-top: 1px solid var(--border); padding-top: 64px; scroll-margin-top: 94px; }
 .secondary-project:not(:last-child){ padding-bottom: 64px; }
 .secondary-project-photo{ max-width: 640px; margin: 16px auto 0; }
 

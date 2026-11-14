@@ -139,14 +139,15 @@ function renderContent() {
   // visitors never land on a card promising content that isn't there yet;
   // a placeholder description is just left out.
   const secondaryEl = document.getElementById('secondaryProjects');
-  secondaryEl.innerHTML = secondaryIds.map(id => c.projectsById[id]).filter(hasRealContent).map(project => {
+  featuredEl.id = `project-${featuredId}`;
+  secondaryEl.innerHTML = secondaryIds.map(id => ({ id, ...c.projectsById[id] })).filter(hasRealContent).map(project => {
     const thumb = project.photos[0];
     const linksHtml = [
       isRealLink(project.liveUrl) ? `<a class="btn primary" href="${project.liveUrl}" target="_blank" rel="noopener">View Site</a>` : '',
       isRealLink(project.repoUrl) ? `<a class="btn ghost" href="${project.repoUrl}" target="_blank" rel="noopener">View Repo</a>` : ''
     ].join('');
     return `
-    <div class="secondary-project">
+    <div class="secondary-project" id="project-${project.id}">
       <h2 class="featured-title">${project.name}</h2>
       ${isPlaceholder(project.description) ? '' : `<p class="featured-desc">${project.description}</p>`}
       ${linksHtml ? `<div class="featured-links">${linksHtml}</div>` : ''}
@@ -208,7 +209,8 @@ function renderContent() {
         ${cert.linkText
           ? (cert.linkTab
             // In-site link: switches tabs via the shared [data-tab] handler below.
-            ? `<a class="cert-meta cert-meta-link" href="#${cert.linkTab}" data-tab="${cert.linkTab}">${cert.linkText}</a>`
+            // linkProject (optional) scrolls straight to that project once the tab opens.
+            ? `<a class="cert-meta cert-meta-link" href="#${cert.linkTab}" data-tab="${cert.linkTab}"${cert.linkProject ? ` data-scroll-to="project-${cert.linkProject}"` : ''}>${cert.linkText}</a>`
             : isPlaceholder(cert.linkUrl)
             ? `<div class="cert-meta">${cert.linkText}</div>`
             : `<a class="cert-meta cert-meta-link" href="${cert.linkUrl}" target="_blank" rel="noopener">${cert.linkText}</a>`)
@@ -341,21 +343,25 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (ev
 const tabSections = document.querySelectorAll('.tab-section');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-function setActiveTab(id) {
+function setActiveTab(id, scrollToId) {
   tabSections.forEach(sec => sec.classList.toggle('active', sec.id === id));
   document.querySelectorAll('[data-tab]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.tab === id);
   });
-  // Always scroll back to the very top so the hero (and the buttons) is fully visible,
-  // regardless of how far down the previous tab's content was scrolled.
-  window.scrollTo({ top: 0, behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
+  const behavior = prefersReducedMotion.matches ? 'auto' : 'smooth';
+  // A link can ask for a specific element inside the new tab (e.g. one project);
+  // otherwise scroll back to the very top so the hero (and the buttons) is fully
+  // visible, regardless of how far down the previous tab's content was scrolled.
+  const target = scrollToId && document.getElementById(scrollToId);
+  if (target) target.scrollIntoView({ behavior, block: 'start' });
+  else window.scrollTo({ top: 0, behavior });
 }
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
   btn.addEventListener('click', (e) => {
     // Tab links (e.g. the nav's #email) switch tabs instead of jumping to the hash.
     if (btn.tagName === 'A') e.preventDefault();
-    setActiveTab(btn.dataset.tab);
+    setActiveTab(btn.dataset.tab, btn.dataset.scrollTo);
   });
 });
 
