@@ -20,14 +20,14 @@ const isPlaceholder = text => typeof text !== 'string' || !text.trim() || /^\[.*
 
 // A media-placeholder that quietly upgrades to a real photo if the file exists,
 // so dropping an image in with the right filename is all that's needed later.
-function loadPhotoInto(el, src) {
+function loadPhotoInto(el, src, alt = '') {
   if (isPlaceholder(src)) return;
   const img = new Image();
   img.onload = () => {
     el.classList.add('has-image');
     const imgEl = document.createElement('img');
     imgEl.src = src;
-    imgEl.alt = '';
+    imgEl.alt = alt;
     el.appendChild(imgEl);
   };
   img.src = src;
@@ -52,7 +52,7 @@ function renderContent() {
   // About
   const portraitEl = document.getElementById('aboutPortrait');
   portraitEl.innerHTML = `${PHOTO_ICON_SVG(28)}<span>Portrait — replace with ${portraitEl.dataset.src}</span>`;
-  loadPhotoInto(portraitEl, portraitEl.dataset.src);
+  loadPhotoInto(portraitEl, portraitEl.dataset.src, `Portrait of ${c.hero.name}`);
 
   const aboutEl = document.getElementById('aboutText');
   c.about.forEach(paragraph => {
@@ -449,4 +449,3 @@ document.querySelectorAll('.featured-photo-carousel').forEach(carousel => {
   nextBtn.addEventListener('click', () => showSlide(current + 1));
   dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
 });
-
