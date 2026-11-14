@@ -74,14 +74,7 @@ const PET_HIDDEN_KEY = 'chameleonPetHidden';
 
 let petScriptsLoaded = false;
 
-function setOnekoVisible(visible) {
-  const oneko = document.getElementById('oneko');
-  if (oneko) oneko.style.display = visible ? '' : 'none';
-}
-
 async function showChameleonPet() {
-  setOnekoVisible(false);
-
   if (!petScriptsLoaded) {
     try {
       for (const path of PET_SCRIPTS) {
@@ -89,8 +82,7 @@ async function showChameleonPet() {
       }
       petScriptsLoaded = true;
     } catch (e) {
-      // Pet repo unreachable — fall back to the cat rather than leaving no pet at all.
-      setOnekoVisible(true);
+      // Pet repo unreachable — no pet this time.
       return;
     }
   }
@@ -111,7 +103,6 @@ function hideChameleonPet() {
     // ChameleonPet.init() returns the cached instance, so clear it to allow a fresh one later.
     window.__chameleonPetInstance = null;
   }
-  setOnekoVisible(true);
 }
 
 const petUnlockBtn = document.getElementById('petUnlockBtn');
