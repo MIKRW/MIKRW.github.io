@@ -21,7 +21,7 @@ SITE_CONTENT.education = [
 ];
 
 SITE_CONTENT.handsOnPractice = [
-  { name: "2026 AWSN Incident Response Competition", format: "inline", meta: "6/11/26 – 15/11/26", status: "Participant", linkText: "lessonlearnedreport-inprogress", linkUrl: "[Lessons learned report URL]" },
+  { name: "2026 AWSN Incident Response Competition", format: "inline", meta: "6/11/26 – 15/11/26", status: "Participant" },
   { name: "Innovation Sprint 2025 - Google Developer Group (La Trobe University)", format: "inline", meta: "1/9/25 – 27/9/25", status: "Participant", linkText: "View project: Name That Bird", linkTab: "projects", linkProject: "projectTwo" },
   { name: "TryHackMe", format: "badge", badgeSrc: "[TryHackMe badge image URL]", profileUrl: "https://tryhackme.com/p/CamiChameleon", meta: "tryhackme.com/p/CamiChameleon" }
   // Hack The Box: hidden until profile has completed content — re-add once boxes are done.
