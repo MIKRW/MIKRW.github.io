@@ -353,8 +353,41 @@ function setActiveTab(id, scrollToId) {
   // otherwise scroll back to the very top so the hero (and the buttons) is fully
   // visible, regardless of how far down the previous tab's content was scrolled.
   const target = scrollToId && document.getElementById(scrollToId);
-  if (target) target.scrollIntoView({ behavior, block: 'start' });
-  else window.scrollTo({ top: 0, behavior });
+  if (target) {
+    target.scrollIntoView({ behavior, block: 'start' });
+    keepInView(target, behavior);
+  } else {
+    window.scrollTo({ top: 0, behavior });
+  }
+}
+
+// Content above a linked-to element can still change height after the scroll
+// starts (the lazy-loaded game iframe only loads once the Projects tab opens,
+// then resizes itself to its real height), which would push the target out of
+// view. Re-align whenever the tab's layout shifts, until the visitor scrolls
+// themselves or things have had a few seconds to settle.
+let stopKeepingInView = null;
+function keepInView(target, behavior) {
+  if (stopKeepingInView) stopKeepingInView();
+  if (!('ResizeObserver' in window)) return;
+  const section = target.closest('.tab-section') || document.body;
+  let lastTop = null;
+  const observer = new ResizeObserver(() => {
+    const top = target.offsetTop;
+    if (lastTop !== null && top !== lastTop) target.scrollIntoView({ behavior, block: 'start' });
+    lastTop = top;
+  });
+  observer.observe(section);
+  const userEvents = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+  const stop = () => {
+    observer.disconnect();
+    userEvents.forEach(ev => window.removeEventListener(ev, stop));
+    clearTimeout(timer);
+    stopKeepingInView = null;
+  };
+  const timer = setTimeout(stop, 4000);
+  userEvents.forEach(ev => window.addEventListener(ev, stop, { passive: true }));
+  stopKeepingInView = stop;
 }
 
 document.querySelectorAll('[data-tab]').forEach(btn => {
